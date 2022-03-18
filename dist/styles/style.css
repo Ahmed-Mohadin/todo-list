@@ -7,6 +7,8 @@
     --lightBlue: #01BAEF;
     --lightGreen: #6EEB83;
     --lightYellow: #E4FF1A;
+
+    --defaultRadius: 0.6rem;
 }
 *{
     margin: 0;
@@ -39,7 +41,7 @@ header .menu .fa-bars{
     cursor: pointer;
     color: var(--darkGray);
     padding: 0.5rem;
-    border-radius: 0.4rem;
+    border-radius: var(--defaultRadius);
 }
 header .menu .fa-bars:hover{
     background-color: var(--lightGray);
@@ -80,7 +82,7 @@ header .theme .fa-sun{
     margin-bottom: 0.1rem;
 }
 header .theme .fa-moon{
-    color: var(--lightGray);
+    color: var(--lightDarkGray);
     transform: scale(1.1);
     margin-bottom: 0.1rem;
 }
@@ -121,7 +123,7 @@ main .btn{
     border: none;
     text-align: left;
     padding: 0.4rem 1.2rem;
-    border-radius: 0.6rem;
+    border-radius: var(--defaultRadius);
     font-size: 1.05em;
 }
 main .btn:hover{
@@ -158,16 +160,91 @@ main .btn:hover{
     justify-content: space-between;
     width: 100%;
 }
+.project-collection .user-project .projects .btn > i{
+    padding: 0.4rem;
+    border-radius: var(--defaultRadius);
+} 
+.project-collection .user-project .projects .btn > i:hover{
+    cursor: pointer;
+    background-color: var(--lightDarkGray);
+}
 
 /* .todo-list */
 .todo-list{
     flex: 3;
 }
 .todo-list article{
-    padding: 1rem 2rem;
+    padding: 1.5rem 1.5rem 5.5rem 1.5rem;
 }
-
-
+.todo-list article > h3{
+    font-size: 2em;
+    background-color: var(--lightGreen);
+    color: var(--darkGray);
+    padding: 1.5rem;
+    border-radius: var(--defaultRadius);
+}
+.todo-list article ul{
+    list-style: none;
+    margin-top: 1rem;
+    padding: 0.5rem 0rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.todo-list article ul li{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
+    gap: 1rem;
+    border-radius: var(--defaultRadius);
+    padding: 1rem;
+    background-color: var(--white);
+    color: var(--darkGray);
+}
+.todo-list article ul li:hover{
+    box-shadow: var(--lightDarkGray) 0.2rem 0.2rem 0.2rem;
+    cursor: pointer;
+}
+.todo-list article ul li i{
+    padding: 0.4rem;
+    border-radius: var(--defaultRadius);
+} 
+.todo-list article ul li i:hover{
+    cursor: pointer;
+    background-color: var(--lightGray);
+}
+.todo-list article ul li .todo-text{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+.todo-list article ul li .todo-icon{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+.todo-check{
+    color: var(--lightGreen);
+} 
+.todo-star{
+    color: var(--lightYellow);
+}
+.todo-list article .btn{
+    background-color: var(--lightGreen);
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.8rem 1.5rem;
+}
+.todo-list article .btn:hover{
+    box-shadow: var(--lightDarkGray) 0.2rem 0.2rem 0.2rem;
+}
 
 /* footer */
 footer{
