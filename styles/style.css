@@ -293,7 +293,8 @@ aside form input[type="checkbox"]{
     transform: scale(1.8);
     margin-right: 0.25rem;
 }
-aside form .form-todo .todo-date, aside form .form-todo .todo-important{
+aside form .form-todo .todo-date, 
+aside form .form-todo .todo-important{
     display: flex;
     justify-content: space-between;
     align-items: center;

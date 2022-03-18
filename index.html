@@ -30,9 +30,10 @@
     <main>
         <section class="project-collection">
 
+            <!-- users default projects -->
             <article class="default-project">
                 <h2>Home</h2>
-                <ul class="home-project">
+                <ul class="projects">
                     <li class="all-task">
                         <i class="fa-solid fa-inbox"></i> 
                         All Tasks
@@ -52,6 +53,7 @@
                 </ul>
             </article>
 
+            <!-- created user projects -->
             <article class="user-project">
                 <h2>Projects</h2>
                 <ul class="projects">
@@ -61,21 +63,7 @@
                             <span>Project 1</span>
                         </span>
                         <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </li>   
-                    <li class="project-item">
-                        <span class="project-text">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            <span>Project 1</span>
-                        </span>
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </li>   
-                    <li class="project-item">
-                        <span class="project-text">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            <span>Project 1</span>
-                        </span>
-                        <i class="fa-solid fa-ellipsis-vertical"></i>
-                    </li>                      
+                    </li>     
                 </ul>
                 <button class="btn add-project"><i class="fa-solid fa-plus"></i> Add Project</button>
             </article>
@@ -86,96 +74,12 @@
             <article class="user-list">
                 <h3 class="project-title">All Tasks</h3>
                 <ul class="todos">
-                    <li class="todo">
+                    <li class="todo-item">
                         <div class="todo-text">
-                            <i class="fa-solid fa-circle-check todo-check"></i>
+                            <i class="fa-solid fa-circle-check todo-check todo-check"></i>
                             <span>Todo 1</span>
                         </div>
-                        <div class="todo-date">
-                            <i class="fa-solid fa-calendar-week"></i>
-                            <span>2022/03/18</span>    
-                        </div>
-                        <div class="todo-icon">
-                            <i class="fa-solid fa-star todo-star"></i>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>    
-                        </div>
-                    </li>         
-                    <li class="todo">
-                        <div class="todo-text">
-                            <i class="fa-solid fa-circle-check todo-check"></i>
-                            <span>Todo 1</span>
-                        </div>
-                        <div class="todo-date">
-                            <i class="fa-solid fa-calendar-week"></i>
-                            <span>2022/03/18</span>    
-                        </div>
-                        <div class="todo-icon">
-                            <i class="fa-solid fa-star todo-star"></i>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>    
-                        </div>
-                    </li>         
-                    <li class="todo">
-                        <div class="todo-text">
-                            <i class="fa-solid fa-circle-check todo-check"></i>
-                            <span>Todo 1</span>
-                        </div>
-                        <div class="todo-date">
-                            <i class="fa-solid fa-calendar-week"></i>
-                            <span>2022/03/18</span>    
-                        </div>
-                        <div class="todo-icon">
-                            <i class="fa-solid fa-star todo-star"></i>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>    
-                        </div>
-                    </li>         
-                    <li class="todo">
-                        <div class="todo-text">
-                            <i class="fa-solid fa-circle-check todo-check"></i>
-                            <span>Todo 1</span>
-                        </div>
-                        <div class="todo-date">
-                            <i class="fa-solid fa-calendar-week"></i>
-                            <span>2022/03/18</span>    
-                        </div>
-                        <div class="todo-icon">
-                            <i class="fa-solid fa-star todo-star"></i>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>    
-                        </div>
-                    </li>         
-                    <li class="todo">
-                        <div class="todo-text">
-                            <i class="fa-solid fa-circle-check todo-check"></i>
-                            <span>Todo 1</span>
-                        </div>
-                        <div class="todo-date">
-                            <i class="fa-solid fa-calendar-week"></i>
-                            <span>2022/03/18</span>    
-                        </div>
-                        <div class="todo-icon">
-                            <i class="fa-solid fa-star todo-star"></i>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>    
-                        </div>
-                    </li>           
-                    <li class="todo">
-                        <div class="todo-text">
-                            <i class="fa-solid fa-circle-check todo-check"></i>
-                            <span>Todo 1</span>
-                        </div>
-                        <div class="todo-date">
-                            <i class="fa-solid fa-calendar-week"></i>
-                            <span>2022/03/18</span>    
-                        </div>
-                        <div class="todo-icon">
-                            <i class="fa-solid fa-star todo-star"></i>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>    
-                        </div>
-                    </li>         
-                    <li class="todo">
-                        <div class="todo-text">
-                            <i class="fa-solid fa-circle-check todo-check"></i>
-                            <span>Todo 1</span>
-                        </div>
-                        <div class="todo-date">
+                        <div class="todo-plan">
                             <i class="fa-solid fa-calendar-week"></i>
                             <span>2022/03/18</span>    
                         </div>
@@ -191,7 +95,7 @@
     </main>
     <aside class="not-active">
         <form class="form-pro-to">
-            
+            <!-- add a new project form -->
             <div class="form-project not-active">
                 <div class="form-input">
                     <i class="fa-solid fa-calendar-check"></i>
@@ -204,13 +108,13 @@
                 </div>
             </div>
 
+            <!-- add a new todo form -->
             <div class="form-todo not-active">
                 <div class="form-input">
                     <i class="fa-solid fa-circle-check"></i>
                     <label for="todo-name">What to do?</label>
                 </div>
                 <input type="text" name="todo-name" id="todo-name" required maxlength="20"> 
-                
                 <div class="form-input todo-date">
                     <div>
                         <i class="fa fa-calendar-week"></i>
@@ -218,7 +122,6 @@
                     </div>
                     <input type="date" name="todo-date" id="todo-date">        
                 </div>
-                
                 <div class="form-input todo-important">
                     <div>
                         <i class="fa fa-calendar-xmark"></i>
@@ -226,7 +129,6 @@
                     </div>
                     <input type="checkbox" name="todo-important" id="todo-important">        
                 </div>
-                
                 <div class="form-btn">
                     <button type="submit">Add</button>
                     <button type="button">Cancel</button>
