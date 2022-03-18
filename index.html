@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- font-awesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" type="text/css">
     <link rel="stylesheet" href="styles/style.css" type="text/css">
     <script src="main.js" defer></script>
     <title>Todo List</title>
@@ -11,22 +13,56 @@
 <body>
     <header>
         <div class="menu">
-            <span class="menu-icon">&#9776;</span>
+            <i class="fa-solid fa-bars"></i>
         </div>
         <div class="logo">
             <span class="logo-text">ToDo <span>List</span></span>
         </div>
-        <div class="theme">
-            <input type="checkbox" class="checkbox" id="checkbox" checked>
-            <label for="checkbox" class="label">
-                <span class="sun-icon">&#9728;</span>
-                <span class="moon-icon">&#9728;</span>
+        <div class="theme">            
+            <input type="checkbox" id="theme-change" name="theme-change" checked>
+            <label for="theme-change">
+                <i class="fa-solid fa-sun"></i>
+                <i class="fa-solid fa-moon"></i>
                 <div class="ball"></div>
             </label>
         </div>
     </header>
     <main>
+        <section class="project-collection">
 
+            <article class="default-project">
+                <h2>Home</h2>
+                <button class="btn all-task"><i class="fa-solid fa-inbox"></i> All Tasks</button>
+                <button class="btn today"><i class="fa-solid fa-calendar-day"></i> Today</button>
+                <button class="btn this-week"><i class="fa-solid fa-calendar-week"></i> This Week</button>
+                <button class="btn important"><i class="fa-solid fa-calendar-xmark"></i> Important</button>
+            </article>
+
+            <article class="user-project">
+                <h2>Projects</h2>
+                <div class="projects">
+                    <button class="btn">
+                        <span class="btn-text">
+                            <i class="fa-solid fa-calendar-check"></i>
+                            Project 1
+                        </span>
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                </div>
+                <button class="btn add-project"><i class="fa-solid fa-plus"></i> Add Project</button>
+            </article>
+
+        </section>
+
+        <section class="todo-list">
+            <article class="user-list">
+                <button class="btn">&#9872;</button>
+                <button class="btn">&#9873;</button>
+                <button class="btn">&#9744;</button>
+                <button class="btn">&#9745;</button>
+                <button class="btn">&#10004;</button>    
+            </article>
+        </section>
     </main>
     <footer>
         <p>
