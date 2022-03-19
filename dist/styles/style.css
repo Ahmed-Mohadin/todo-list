@@ -37,14 +37,14 @@ header{
     padding: 1rem;
     grid-area: header;
 }
-header .menu .fa-bars{
+header .menu .fa-solid{
     font-size: 2em;
     cursor: pointer;
     color: var(--darkGray);
     padding: 0.5rem;
     border-radius: var(--defaultRadius);
 }
-header .menu .fa-bars:hover{
+header .menu .fa-solid:hover{
     background-color: var(--lightGray);
 }
 header .logo .logo-text{
@@ -116,6 +116,7 @@ main{
     display: flex;
     /* header_height - footer-height*/
     min-height: calc(100vh - 6rem - 5rem); 
+    transition: margin-left 0.5s;
 }
 main h2{
     padding-bottom: 0.1rem;
@@ -146,9 +147,47 @@ main ul{
 /* .project-collection */
 .project-collection{ 
     background-color: var(--white);
-    flex: 1;
-    padding-bottom: 5rem;
+    padding-bottom: 10rem;
+    padding-top: 2rem;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
 }
+.project-collection .fa-xmark{
+    position: absolute;
+    top: 0.5rem;
+    right: 1.3rem;
+    /* margin-left: 2rem; */
+
+    font-size: 2em;
+    cursor: pointer;
+    color: var(--darkGray);
+    padding: 0.5rem;
+    border-radius: var(--defaultRadius);
+}
+
+.project-collection .fa-xmark:hover{
+    background-color: var(--lightGray);
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+} 
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--white); 
+    border-radius: 1rem;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--darkGray); 
+    border-radius: 1rem;
+} 
 .project-collection article{
     display: flex;
     flex-direction: column;
@@ -358,17 +397,14 @@ footer a:hover{
 /* media queries */
 @media(max-width: 900px){
     .project-collection{ 
-        padding-bottom: 0.8rem;
-    }
-    .project-collection article{
-        padding: 0.8rem 1.5rem;
+        padding-bottom: 8rem;
     }
     main{
         flex-direction: column;
     }
 }
-@media(max-width: 430px){
+@media(max-width: 530px){
     :root{
-        font-size: 0.65em;
+        font-size: 0.7em;
     }
 }
