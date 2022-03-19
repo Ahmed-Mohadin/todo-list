@@ -1,12 +1,13 @@
 /* core */
 :root{
-    --white: #FCFAFA;    
-    --darkGray: #333333; 
-    --lightDarkGray: #C8D3D5;
-    --lightGray: #F5EDED;
-    --lightBlue: #01BAEF;
-    --lightGreen: #6EEB83;
-    --lightYellow: #E4FF1A;
+    --bgWhite1: #FCFAFA;    
+
+    --bgGray1: #C8D3D5;
+    --bgGray2: #F5EDED;
+
+    --txtColor: #333333; 
+    --green: #6EEB83;
+    --yellow: #E4FF1A;
 
     --defaultRadius: 0.6rem;
 }
@@ -23,8 +24,17 @@ html{
 }
 body{
     font-family: sans-serif;
-    background-color: var(--lightGray); 
+    background-color: var(--bgGray2); 
     margin-bottom: 1rem;
+}
+/* css when light mode is turned on */
+body.light{
+    --bgWhite1: #1F2421;    
+    --txtColor: #FCFAFA; 
+    --bgGray1: #3B454E;
+    --bgGray2: #333333;
+    --green: #2f6839;
+    --yellow: #a9bd14;
 }
 
 /* header */
@@ -32,33 +42,33 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--white);
+    background-color: var(--bgWhite1);
     height: 6rem;
     padding: 1rem;
     grid-area: header;
 }
-header .menu .fa-bars{
+header .menu .fa-solid{
     font-size: 2em;
     cursor: pointer;
-    color: var(--darkGray);
+    color: var(--txtColor);
     padding: 0.5rem;
     border-radius: var(--defaultRadius);
 }
-header .menu .fa-bars:hover{
-    background-color: var(--lightGray);
+header .menu .fa-solid:hover{
+    background-color: var(--bgGray2);
 }
 header .logo .logo-text{
     font-size: 2em;
     font-weight: bold;
 }
 header .logo > span{
-    color: var(--lightGreen);
+    color: var(--green);
 }
 header .logo .logo-text > span{
-    color: var(--darkGray);
+    color: var(--txtColor);
 }
 header .theme label[for="theme-change"]{
-    background-color: var(--darkGray);
+    background-color: #333333;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -70,7 +80,7 @@ header .theme label[for="theme-change"]{
     position: relative;
     transform: scale(0.8);
     transition: background-color 0.5s ease-in;
-    border: solid 0.2rem var(--lightGreen);
+    border: solid 0.2rem var(--green);
     cursor: pointer;
 }
 header .theme input[type="checkbox"]{
@@ -83,11 +93,11 @@ header .theme input[type="checkbox"]:focus{
 }
 header .theme .fa-sun{
     transform: scale(1.1);
-    color: var(--lightYellow);
+    color: var(--yellow);
     margin-bottom: 0.1rem;
 }
 header .theme .fa-moon{
-    color: var(--lightDarkGray);
+    color: var(--txtColor);
     transform: scale(1.1);
     margin-bottom: 0.1rem;
 }
@@ -96,19 +106,19 @@ header .theme .ball{
     width: 1.75rem;
     height: 1.75rem;
     left: 0.45rem;
-    background-color: var(--lightGreen);
-    border:solid 0.3rem var(--lightGreen);
+    background-color: var(--green);
+    border:solid 0.3rem var(--green);
     border-radius: 50%;
     transition: left 0.5s ease-out;
 }
 /* Plus meaning target the node after it */
 header .theme input[type="checkbox"]:checked + label .ball{            
     left: 3rem;
-    background-color: var(--lightGreen);
-    border:solid 0.3rem var(--lightGreen);
+    background-color: var(--green);
+    border:solid 0.3rem var(--green);
 }
 header .theme input[type="checkbox"]:checked + label{
-    background-color: var(--lightBlue);
+    background-color: var(--bgWhite1);
 }
 
 /* main */
@@ -116,10 +126,12 @@ main{
     display: flex;
     /* header_height - footer-height*/
     min-height: calc(100vh - 6rem - 5rem); 
+    transition: margin-left 0.5s;
+    color: var(--txtColor);
 }
 main h2{
     padding-bottom: 0.1rem;
-    border-bottom: solid 0.2rem var(--darkGray);
+    border-bottom: solid 0.2rem var(--txtColor);
     margin-bottom: 0.4rem;
 }
 main .btn, main ul li{
@@ -129,12 +141,13 @@ main .btn, main ul li{
     text-align: left;
     padding: 0.4rem 1.2rem;
     border-radius: var(--defaultRadius);
+    color: var(--txtColor);
     font-size: 1.02em;
 }
 main .btn:hover, main ul li:hover{
-    background-color: var(--lightGray);
+    background-color: var(--bgGray2);
     cursor: pointer;
-    box-shadow: var(--lightDarkGray) 0.2rem 0.2rem 0.2rem;
+    box-shadow: var(--bgGray1) 0.15rem 0.15rem 0.15rem;
 }
 main ul{
     list-style: none;
@@ -145,10 +158,48 @@ main ul{
 /* section */
 /* .project-collection */
 .project-collection{ 
-    background-color: var(--white);
-    flex: 1;
-    padding-bottom: 5rem;
+    background-color: var(--bgWhite1);
+    padding-bottom: 10rem;
+    padding-top: 2rem;
+    height: 100%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 0;
+    left: 0;
+    overflow-x: hidden;
+    transition: 0.5s;
 }
+.project-collection .fa-xmark{
+    position: absolute;
+    top: 0.5rem;
+    right: 1.3rem;
+    /* margin-left: 2rem; */
+
+    font-size: 2em;
+    cursor: pointer;
+    color: var(--txtColor);
+    padding: 0.5rem;
+    border-radius: var(--defaultRadius);
+}
+
+.project-collection .fa-xmark:hover{
+    background-color: var(--bgGray2);
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+} 
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--bgWhite1); 
+    border-radius: 1rem;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: var(--txtColor); 
+    border-radius: 1rem;
+} 
 .project-collection article{
     display: flex;
     flex-direction: column;
@@ -185,7 +236,7 @@ main ul{
 } 
 .project-collection .user-project ul li > i:hover{
     cursor: pointer;
-    background-color: var(--lightDarkGray);
+    background-color: var(--bgGray1);
 }
 .project-collection .user-project .btn{
     display: flex;
@@ -202,8 +253,8 @@ main ul{
 }
 .todo-list article > h3{
     font-size: 1.5em;
-    background-color: var(--lightGreen);
-    color: var(--darkGray);
+    background-color: var(--green);
+    color: var(--txtColor);
     padding: 1.5rem;
     border-radius: var(--defaultRadius);
 }
@@ -222,8 +273,8 @@ main ul{
     gap: 1rem;
     border-radius: var(--defaultRadius);
     padding: 1rem;
-    background-color: var(--white);
-    color: var(--darkGray);
+    background-color: var(--bgWhite1);
+    color: var(--txtColor);
 }
 .todo-list article ul li i{
     padding: 0.4rem;
@@ -232,7 +283,7 @@ main ul{
 .todo-list article ul li .todo-text i:hover,
 .todo-list article ul li .todo-icon i:hover{
     cursor: pointer;
-    background-color: var(--lightGray);
+    background-color: var(--bgGray2);
 }
 .todo-list article ul li .todo-text{
     display: flex;
@@ -247,13 +298,13 @@ main ul{
     gap: 1rem;
 }
 .todo-check{
-    color: var(--lightGreen);
+    color: var(--green);
 } 
 .todo-star{
-    color: var(--lightYellow);
+    color: var(--yellow);
 }
 .todo-list article .btn{
-    background-color: var(--lightGreen);
+    background-color: var(--green);
     width: 100%;
     display: flex;
     align-items: center;
@@ -273,7 +324,7 @@ aside{
     align-items: center;
 }
 aside form .form-project, aside form .form-todo{
-    background-color: var(--lightGray);
+    background-color: var(--bgGray2);
     font-size: 1.01em;
     padding: 1.5rem;
     border-radius: var(--defaultRadius);
@@ -284,7 +335,7 @@ aside form .form-project, aside form .form-todo{
 }
 aside form input{
     outline: none;
-    border: solid 0.1rem var(--darkGray);
+    border: solid 0.1rem var(--txtColor);
     font-size: 1.01em;
     padding: 0.2rem 0.4rem;
     border-radius: var(--defaultRadius);
@@ -315,13 +366,13 @@ aside form .form-btn button{
 aside form .form-btn button:hover{
     font-weight: bold;
     cursor: pointer;
-    border-color: var(--darkGray);
+    border-color: var(--txtColor);
 }
 aside form .form-btn button[type="submit"]{
-    background-color: var(--lightGreen);
+    background-color: var(--green);
 }
 aside form .form-btn button[type="button"]{
-    background-color: var(--lightDarkGray);
+    background-color: var(--bgGray1);
 }
 .overlay{
     width: 100%;
@@ -338,37 +389,34 @@ footer{
     bottom: 0;
     width: 100%;
     height: 5rem;
-    background-color: var(--white);
+    background-color: var(--bgWhite1);
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    color: var(--lightGreen);
+    color: var(--green);
 }
 footer a{
     text-decoration: none;
-    color: var(--darkGray);
+    color: var(--txtColor);
     border: solid 0.3rem transparent;
 }
 footer a:hover{
-    color: var(--lightGreen);
-    border-bottom-color: var(--lightGreen);
+    color: var(--green);
+    border-bottom-color: var(--green);
 }
 
 /* media queries */
 @media(max-width: 900px){
     .project-collection{ 
-        padding-bottom: 0.8rem;
-    }
-    .project-collection article{
-        padding: 0.8rem 1.5rem;
+        padding-bottom: 8rem;
     }
     main{
         flex-direction: column;
     }
 }
-@media(max-width: 430px){
+@media(max-width: 530px){
     :root{
-        font-size: 0.65em;
+        font-size: 0.7em;
     }
 }
