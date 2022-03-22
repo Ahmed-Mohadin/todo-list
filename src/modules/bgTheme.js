@@ -12,4 +12,4 @@ class BgTheme{
     }
 }
 
-export {BgTheme};
+export default BgTheme;
