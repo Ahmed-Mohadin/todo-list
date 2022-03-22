@@ -1,3 +1,5 @@
+import {BgTheme} from './modules/bgTheme';
+
 // Opens project collection
 document.querySelector('.fa-bars').addEventListener('click', () => navWidth('16rem'));
 
@@ -8,12 +10,44 @@ const navWidth = (width) => {
     document.querySelector('.project-collection').style.width = `${width}`;
 }
 
-const themeCheckbox = document.querySelector('.theme #theme-change');
-themeCheckbox.addEventListener('click', (e) => {
-    if(e.target.checked === true){
-        document.body.classList.remove("light");
+
+const themeIcon = document.querySelector('.theme');
+const bgTheme = new BgTheme();
+const getCurrentTheme = () => {    
+    bgTheme.theme = 'light';
+
+    if(bgTheme.restoreTheme()){
+        bgTheme.theme = bgTheme.restoreTheme();
+        return bgTheme.theme;
     }
-    else{
-        document.body.classList.add("light");
+
+    //matchMedia method supported
+    else if(window.matchMedia){
+        //OS theme setting detected as dark
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches){
+            bgTheme.theme = 'dark';
+        } else{
+            bgTheme.theme = 'light';
+        }
     }
-})
+    
+}
+
+// bgTheme.restoreTheme();
+themeIcon.addEventListener('click', switchTheme);
+function switchTheme(){
+    if(bgTheme.theme == 'light') bgTheme.theme = 'dark';
+    else bgTheme.theme = 'light';
+
+    loadTheme(bgTheme.theme);
+    bgTheme.saveTheme();
+}
+
+function loadTheme(theme){
+    const root = document.querySelector(':root');
+    root.setAttribute('color-scheme', `${theme}`); 
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    loadTheme(getCurrentTheme());
+});
