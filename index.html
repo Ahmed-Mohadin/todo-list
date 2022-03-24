@@ -29,19 +29,19 @@
                 <i class="fa-solid fa-xmark"></i>
                 <h2>Home</h2>
                 <ul class="projects">
-                    <li class="all-task">
+                    <li id="all-task">
                         <i class="fa-solid fa-inbox"></i> 
                         All Tasks
                     </li>
-                    <li class="today">
+                    <li id="today">
                         <i class="fa-solid fa-calendar-day"></i> 
                         Today
                     </li>
-                    <li class="this-week">
+                    <li id="this-week">
                         <i class="fa-solid fa-calendar-week"></i> 
                         This Week
                     </li>
-                    <li class="important">
+                    <li id="important">
                         <i class="fa-solid fa-calendar-xmark"></i> 
                         Important
                     </li>
@@ -96,10 +96,10 @@
                     <i class="fa-solid fa-calendar-check"></i>
                     <label for="project-name">Project name</label>
                 </div>
-                <input type="text" name="project-name" id="project-name" required maxlength="20">    
+                <input type="text" name="project-name" id="project-name" maxlength="20">    
                 <div class="form-btn">
-                    <button class="btn" type="submit">Add</button>
-                    <button class="btn" type="button">Cancel</button>
+                    <button class="btn" type="submit"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn" type="button"><i class="fa-solid fa-eraser"></i></button>
                 </div>
             </div>
 
@@ -109,7 +109,7 @@
                     <i class="fa-solid fa-circle-check"></i>
                     <label for="todo-name">What to do?</label>
                 </div>
-                <input type="text" name="todo-name" id="todo-name" required maxlength="20"> 
+                <input type="text" name="todo-name" id="todo-name" maxlength="20"> 
                 <div class="form-input todo-date">
                     <div>
                         <i class="fa fa-calendar-week"></i>
@@ -125,8 +125,8 @@
                     <input type="checkbox" name="todo-important" id="todo-important">        
                 </div>
                 <div class="form-btn">
-                    <button class="btn" type="submit">Add</button>
-                    <button class="btn" type="button">Cancel</button>
+                    <button class="btn" type="submit"><i class="fa-solid fa-pen"></i></button>
+                    <button class="btn" type="button"><i class="fa-solid fa-eraser"></i></button>
                 </div>
             </div>
         
