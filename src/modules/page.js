@@ -1,31 +1,46 @@
 import BgTheme from "./bgTheme";
-import Task from "./task";
+import createEdit from "./createEdit";
 
 const page = (() => {
     const bgTheme = new BgTheme();
 
     const loadPage = () => {
         initButtons();
-    }
+        createEdit.addEvent();
+        render();
+    } 
 
     const initButtons = () => {    
         const openMenu = document.querySelector('.fa-bars');
         const closeMenu = document.querySelector('.fa-xmark');   
         const themeIcon = document.querySelector('.theme');
 
-        const defaultProject = document.querySelectorAll('.default-project ul li');
-        const userProject = document.querySelectorAll('.user-project ul li');
+        const userList = document.querySelectorAll('.user-list ul');
 
-        openMenu.addEventListener('click', () => navWidth('16rem'));
+        openMenu.addEventListener('click', () => navWidth('21rem'));
         closeMenu.addEventListener('click', () => navWidth('0rem'));
         themeIcon.addEventListener('click', switchTheme);
 
+    }
+
+    const render = () => {
+        const projectTitle = document.querySelector('.user-list .project-title');
+        projectTitle.addEventListener('click', (e) => console.log(e.target.id));
+
+        const defaultProject = document.querySelectorAll('.default-project ul li');
+        const userProject = document.querySelectorAll('.user-project ul li');
+
         defaultProject.forEach((project) => {
-            project.addEventListener('click', () => displayTitle(project.innerText));
-        })
+            project.addEventListener('click', (e) => {
+                displayTitle(projectTitle, e.target.innerText, e.target.id);
+            });
+        });
 
         userProject.forEach((project) => {
-            project.addEventListener('click', () => displayTitle(project.innerText));
+            project.addEventListener('click', (e) => {
+                displayTitle(projectTitle, e.target.innerText, e.target.id);
+                createEdit.renderTodos(e.target.id);
+            });
         })
     }
 
@@ -66,13 +81,13 @@ const page = (() => {
         root.setAttribute('color-scheme', `${theme}`); 
     }
 
-    const displayTitle = (title) => {
-        const projectTitle = document.querySelector('.user-list .project-title');
-        projectTitle.innerText = `${title}`;
+    const displayTitle = (target, title, id) => {
+        target.id = id;
+        target.innerText = `${title}`;
         navWidth('0rem');
     }
-
-    return {loadPage, getCurrentTheme, loadTheme}
+    
+    return {loadPage, loadTheme, getCurrentTheme, navWidth}
 })();
 
 export default page;

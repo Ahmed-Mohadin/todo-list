@@ -257,6 +257,12 @@ main ul{
     padding: 1rem;
     background-color: var(--bgColor1);
 }
+.todo-list article ul li .todo-text{
+    flex: 2;
+}
+.todo-list article ul li .todo-plan, .todo-list article ul li .todo-icon{
+    flex: 1;
+}
 .todo-list article ul li i{
     padding: 0.4rem;
     border-radius: var(--defaultRadius);
@@ -320,6 +326,9 @@ aside form input{
     padding: 0.2rem 0.4rem;
     border-radius: var(--defaultRadius);
 }
+aside form input[type="date"]{
+    padding: 0.1rem 0.3rem;
+}
 aside form input[type="checkbox"]{
     transform: scale(1.8);
     margin-right: 0.25rem;
@@ -352,7 +361,7 @@ aside form .form-btn button[type="submit"]{
     background-color: var(--accentColor1);
 }
 aside form .form-btn button[type="button"]{
-    background-color: var(--bgColor2);
+    background-color: var(--accentColor2);
 }
 .overlay{
     width: 100%;
@@ -397,6 +406,15 @@ footer a:hover{
 }
 @media(max-width: 530px){
     :root{
-        font-size: 0.7em;
+        font-size: 0.6em;
+    }
+    .todo-list article ul li .todo-text{
+        flex: 3;
+    }
+    .todo-list article ul li .todo-plan{
+        flex: 2;
+    }
+    .todo-list article ul li .todo-icon{
+        flex: 1;
     }
 }
