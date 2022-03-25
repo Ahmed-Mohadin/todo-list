@@ -17,8 +17,8 @@ class Projects{
         })
     }
 
-    addTodo(title, date, completed, important, projectId){
-        const newTodo = new Todo(title, date, completed, important);
+    addTodo(title, date, important, projectId){
+        const newTodo = new Todo(title, date, important);
         this.projects.find((project) => project.id == projectId).todos.push(newTodo);
     }
 

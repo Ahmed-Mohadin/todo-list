@@ -1,9 +1,9 @@
 class Todo{
-    constructor(title, date = 'No date', completed = false, important = false){
+    constructor(title = "No title", date = 'No date', important = false){
         this.id = Date.now();
         this.title = title;
         this.date = date;
-        this.completed = completed;
+        this.completed = false;
         this.important = important;
     }
 }

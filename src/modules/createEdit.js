@@ -10,32 +10,34 @@ const createEdit = (() => {
 
     const initButtons = () => {        
         
-        const form = document.querySelector('form');
+        const formProject = document.querySelector('aside .form-project');
+        const formTodo = document.querySelector('aside .form-todo');
 
         window.addEventListener('click', displayForm);
 
-        form.addEventListener('submit', handleForm);
+        formProject.addEventListener('submit', handleFormProject);
+        formTodo.addEventListener('submit', handleFormTodo);
     }
 
     const displayForm = (e) => {
         const addProjectBtn = document.querySelector('.user-project .add-project');
-        const formProject = document.querySelector('form .form-project');
+        const formProject = document.querySelector('aside .form-project');
         const deleteProjectBtn = document.querySelector('.form-project button[type="button"]');
    
         const addTodoBtn = document.querySelector('.todo-list .add-todo');
-        const formTodo = document.querySelector('aside form .form-todo');
+        const formTodo = document.querySelector('aside .form-todo');
         const deleteTodoBtn = document.querySelector('.form-todo button[type="button"]');
  
         if((addProjectBtn.contains(e.target) || formProject.contains(e.target)) 
             && !deleteProjectBtn.contains(e.target)
             ){
-            openForm(formProject);
+            openForm('.form-project');
             page.navWidth('0rem');    
         }
         else if((addTodoBtn.contains(e.target) || formTodo.contains(e.target)) 
             && !deleteTodoBtn.contains(e.target)
             ){
-            openForm(formTodo);
+            openForm('.form-todo');
             page.navWidth('0rem');
         }
         else if(!formProject.contains(e.target) || !formTodo.contains(e.target)){
@@ -47,31 +49,26 @@ const createEdit = (() => {
         document.querySelector('aside').classList.remove('not-active');
         document.querySelector('aside').classList.add('overlay');
 
-        form.classList.remove('not-active');
+        document.querySelector(`aside ${form}`).classList.remove('not-active');
     }
 
     const closeForm = () => {
         document.querySelector('aside').classList.add('not-active');
         document.querySelector('aside').classList.remove('overlay');
 
-        document.querySelector('form .form-project').classList.add('not-active');
-        document.querySelector('aside form .form-todo').classList.add('not-active');
+        document.querySelector('aside .form-project').classList.add('not-active');
+        document.querySelector('aside .form-todo').classList.add('not-active');
 
-        errMsg('', 1);
-        errMsg('', 2);
+        errMsg('', 'form-project');
+        errMsg('', 'form-todo');
     }
 
-    const handleForm = (e) => {
+    const handleFormProject = (e) => {
         e.preventDefault();
-        const formProject = document.querySelector('form .form-project');
-        const formTodo = document.querySelector('form .form-todo');
+        const formProject = document.querySelector('aside .form-project');
         const projectTitle = document.querySelector('.user-list .project-title');
 
         const projectName = e.target[0];
-        const todoTitle = e.target[3];
-        const todoDate = e.target[4];
-        const todoImportant = e.target[5];
-
 
         if(formProject.classList.contains('not-active') === false){
             if(projectName.value !== ''){
@@ -83,15 +80,24 @@ const createEdit = (() => {
                 page.loadPage();
             }
             else{
-                errMsg('Invalid Project', 1);
+                errMsg('Invalid Project', 'form-project');
+                setTimeout(() => errMsg('', 'form-project'), 2500);
             }
         }
+    }
+
+    const handleFormTodo = (e) => {
+        e.preventDefault();
+        const formTodo = document.querySelector('aside .form-todo');
+        const projectTitle = document.querySelector('.user-list .project-title');
+
+        const todoTitle = e.target[0];
+        const todoDate = e.target[1];
+        const todoImportant = e.target[2];
+
         if(formTodo.classList.contains('not-active') === false){
             if(todoTitle.value !== '' && todoDate.value !== ''){
-                projects.addTodo(todoTitle.value, 
-                                 todoDate.value, false, 
-                                 todoImportant.checked, 
-                                 projectTitle.id);
+                projects.addTodo(todoTitle.value, todoDate.value, todoImportant.checked, projectTitle.id);
                 renderTodos(projectTitle.id);
                 todoTitle.value = '';
                 todoDate.value = '';
@@ -99,8 +105,9 @@ const createEdit = (() => {
                 closeForm();
                 page.loadPage();
             }
-            else{
-                return errMsg('Invalid Todo', 2);
+            else {
+                errMsg('Invalid Todo', 'form-todo');
+                setTimeout(() => errMsg('', 'form-todo'), 2500);
             }
         }
     }
@@ -153,15 +160,17 @@ const createEdit = (() => {
         projects.projects.find((project) => project.id == projectId).todos.forEach((todo) => {
             userList.innerHTML += addTodo(todo);
             const allItems = document.querySelectorAll('.todo-item');
-            const lastItem = allItems[allItems.length - 1];
-            setTimeout(() => {
-                lastItem.classList.add('show');
-            }, 10);
+            allItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                setTimeout(() => {
+                    item.classList.add('show');
+                }, index * 75);
+            })
         })
     }
 
     const errMsg = (text, target) => {
-        document.querySelector(`.err-msg${target}`).innerText = text;
+        document.querySelector(`.${target} .err-msg`).innerText = text;
     }
 
 
