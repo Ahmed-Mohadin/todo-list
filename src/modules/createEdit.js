@@ -13,8 +13,8 @@ const createEdit = (() => {
         const form = document.querySelector('form');
 
         window.addEventListener('click', displayForm);
-        form.addEventListener('submit', handleForm);
 
+        form.addEventListener('submit', handleForm);
     }
 
     const displayForm = (e) => {
@@ -56,6 +56,9 @@ const createEdit = (() => {
 
         document.querySelector('form .form-project').classList.add('not-active');
         document.querySelector('aside form .form-todo').classList.add('not-active');
+
+        errMsg('', 1);
+        errMsg('', 2);
     }
 
     const handleForm = (e) => {
@@ -64,22 +67,42 @@ const createEdit = (() => {
         const formTodo = document.querySelector('form .form-todo');
         const projectTitle = document.querySelector('.user-list .project-title');
 
-        if(!formProject.classList.contains('not-active')){
-            const projectName = e.target[0].value;
-            projects.createProject(projectName);
-            renderProject();
-            renderTodos(projectTitle.id);
-        }
-        if(!formTodo.classList.contains('not-active')){
-            const todoTitle = e.target[3].value;
-            const todoDate = e.target[4].value;
-            const todoImportant = e.target[5].checked;
+        const projectName = e.target[0];
+        const todoTitle = e.target[3];
+        const todoDate = e.target[4];
+        const todoImportant = e.target[5];
 
-            projects.addTodo(todoTitle, todoDate, false, todoImportant, projectTitle.id);
-            renderTodos(projectTitle.id);
+
+        if(formProject.classList.contains('not-active') === false){
+            if(projectName.value !== ''){
+                projects.createProject(projectName.value);
+                renderProject();
+                renderTodos(projectTitle.id);
+                projectName.value = '';    
+                closeForm();
+                page.loadPage();
+            }
+            else{
+                errMsg('Invalid Project', 1);
+            }
         }
-        page.loadPage();
-        closeForm();
+        if(formTodo.classList.contains('not-active') === false){
+            if(todoTitle.value !== '' && todoDate.value !== ''){
+                projects.addTodo(todoTitle.value, 
+                                 todoDate.value, false, 
+                                 todoImportant.checked, 
+                                 projectTitle.id);
+                renderTodos(projectTitle.id);
+                todoTitle.value = '';
+                todoDate.value = '';
+                todoImportant.checked = false;  
+                closeForm();
+                page.loadPage();
+            }
+            else{
+                return errMsg('Invalid Todo', 2);
+            }
+        }
     }
 
     const addProject = (project) => {
@@ -112,7 +135,7 @@ const createEdit = (() => {
                     <i class="fa-solid fa-star ${todo.important ? "todo-star" : null}"></i>
                     <i class="fa-solid fa-ellipsis-vertical"></i>    
                 </div>
-            </li>`       
+            </li>`
         );
     }
     
@@ -129,7 +152,16 @@ const createEdit = (() => {
         userList.innerHTML = '';
         projects.projects.find((project) => project.id == projectId).todos.forEach((todo) => {
             userList.innerHTML += addTodo(todo);
+            const allItems = document.querySelectorAll('.todo-item');
+            const lastItem = allItems[allItems.length - 1];
+            setTimeout(() => {
+                lastItem.classList.add('show');
+            }, 10);
         })
+    }
+
+    const errMsg = (text, target) => {
+        document.querySelector(`.err-msg${target}`).innerText = text;
     }
 
 

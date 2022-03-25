@@ -33,6 +33,7 @@ const page = (() => {
         defaultProject.forEach((project) => {
             project.addEventListener('click', (e) => {
                 displayTitle(projectTitle, e.target.innerText, e.target.id);
+                createEdit.renderTodos(e.target.id);
             });
         });
 
