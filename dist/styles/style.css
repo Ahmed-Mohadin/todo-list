@@ -1,15 +1,57 @@
 /* core */
-:root{
-    --bgWhite1: #FCFAFA;    
+:root{    
+    --bgColor1-light: #FCFAFA;   
+    --bgColor2-light: #D4D7D9;
+    --txtColor-light: #333333;
+    --accentColor1-light: #6EEB83;
+    --accentColor2-light: #E4FF1A;
+    --shadow-light: rgba(0, 0, 0, 0.24) 0.25rem 0.25rem 0.25rem;
 
-    --bgGray1: #C8D3D5;
-    --bgGray2: #F5EDED;
-
-    --txtColor: #333333; 
-    --green: #6EEB83;
-    --yellow: #E4FF1A;
+    --bgColor1-dark: #1A1A1B;   
+    --bgColor2-dark: #030303;
+    --txtColor-dark: #DAE0E6;
+    --accentColor1-dark: #3E8A40;
+    --accentColor2-dark: #BDD319;
+    --shadow-dark: rgba(255, 255, 255, 0.24) 0.25rem 0.25rem 0.25rem;
 
     --defaultRadius: 0.6rem;
+}
+/* custom light-dark mode */
+@media(prefers-color-scheme: light){
+    :root {
+        --bgColor1: var(--bgColor1-light);
+        --bgColor2: var(--bgColor2-light);
+        --txtColor: var(--txtColor-light);
+        --accentColor1: var(--accentColor1-light);
+        --accentColor2: var(--accentColor2-light);
+        --shadow: var(--shadow-light);
+    }
+}
+@media(prefers-color-scheme: dark){
+    :root {
+        --bgColor1: var(--bgColor1-dark);
+        --bgColor2: var(--bgColor2-dark);
+        --txtColor: var(--txtColor-dark);
+        --accentColor1: var(--accentColor1-dark);
+        --accentColor2: var(--accentColor2-dark);
+        --shadow: var(--shadow-dark);
+    }
+}
+[color-scheme="light"]{
+    --bgColor1: var(--bgColor1-light);
+    --bgColor2: var(--bgColor2-light);
+    --txtColor: var(--txtColor-light);
+    --accentColor1: var(--accentColor1-light);
+    --accentColor2: var(--accentColor2-light);
+    --shadow: var(--shadow-light);
+}
+[color-scheme="dark"]{
+    --bgColor1: var(--bgColor1-dark);
+    --bgColor2: var(--bgColor2-dark);
+    --txtColor: var(--txtColor-dark);
+    --accentColor1: var(--accentColor1-dark);
+    --accentColor2: var(--accentColor2-dark);
+    --shadow: var(--shadow-dark);
 }
 *{
     margin: 0;
@@ -24,17 +66,9 @@ html{
 }
 body{
     font-family: sans-serif;
-    background-color: var(--bgGray2); 
+    background-color: var(--bgColor2); 
+    color: var(--txtColor);
     margin-bottom: 1rem;
-}
-/* css when light mode is turned on */
-body.light{
-    --bgWhite1: #1F2421;    
-    --txtColor: #FCFAFA; 
-    --bgGray1: #3B454E;
-    --bgGray2: #333333;
-    --green: #2f6839;
-    --yellow: #a9bd14;
 }
 
 /* header */
@@ -42,83 +76,31 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--bgWhite1);
+    background-color: var(--bgColor1);
     height: 6rem;
     padding: 1rem;
-    grid-area: header;
 }
-header .menu .fa-solid{
+header .fa-solid{
     font-size: 2em;
     cursor: pointer;
-    color: var(--txtColor);
     padding: 0.5rem;
     border-radius: var(--defaultRadius);
 }
-header .menu .fa-solid:hover{
-    background-color: var(--bgGray2);
+header .fa-solid:hover{
+    background-color: var(--bgColor2);
 }
 header .logo .logo-text{
     font-size: 2em;
     font-weight: bold;
 }
 header .logo > span{
-    color: var(--green);
+    color: var(--accentColor1);
 }
 header .logo .logo-text > span{
     color: var(--txtColor);
 }
-header .theme label[for="theme-change"]{
-    background-color: #333333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.05rem;
-    border-radius: 2.5rem;
-    height: 2.5rem;
-    width: 5.5rem;
-    box-sizing: border-box;
-    position: relative;
-    transform: scale(0.8);
-    transition: background-color 0.5s ease-in;
-    border: solid 0.2rem var(--green);
-    cursor: pointer;
-}
-header .theme input[type="checkbox"]{
-    opacity: 0;
-    position: absolute;
-}
-header .theme input[type="checkbox"]:focus{
-    outline: none;
-    border: none;
-}
-header .theme .fa-sun{
-    transform: scale(1.1);
-    color: var(--yellow);
-    margin-bottom: 0.1rem;
-}
-header .theme .fa-moon{
-    color: var(--txtColor);
-    transform: scale(1.1);
-    margin-bottom: 0.1rem;
-}
-header .theme .ball{
-    position: absolute;
-    width: 1.75rem;
-    height: 1.75rem;
-    left: 0.45rem;
-    background-color: var(--green);
-    border:solid 0.3rem var(--green);
+header .theme .fa-solid{
     border-radius: 50%;
-    transition: left 0.5s ease-out;
-}
-/* Plus meaning target the node after it */
-header .theme input[type="checkbox"]:checked + label .ball{            
-    left: 3rem;
-    background-color: var(--green);
-    border:solid 0.3rem var(--green);
-}
-header .theme input[type="checkbox"]:checked + label{
-    background-color: var(--bgWhite1);
 }
 
 /* main */
@@ -127,27 +109,31 @@ main{
     /* header_height - footer-height*/
     min-height: calc(100vh - 6rem - 5rem); 
     transition: margin-left 0.5s;
-    color: var(--txtColor);
 }
 main h2{
     padding-bottom: 0.1rem;
-    border-bottom: solid 0.2rem var(--txtColor);
+    border-bottom: solid 0.2rem var(--bgColor2);
     margin-bottom: 0.4rem;
 }
 main .btn, main ul li{
     outline: none;
-    background-color: transparent;
     border: none;
     text-align: left;
     padding: 0.4rem 1.2rem;
     border-radius: var(--defaultRadius);
-    color: var(--txtColor);
     font-size: 1.02em;
-}
-main .btn:hover, main ul li:hover{
-    background-color: var(--bgGray2);
     cursor: pointer;
-    box-shadow: var(--bgGray1) 0.15rem 0.15rem 0.15rem;
+}
+main .btn{
+    background-color: var(--accentColor1);
+    color: var(--txtColor);
+}
+main .btn:hover{
+    box-shadow: var(--shadow);
+}
+main ul li:hover{
+    background-color: var(--accentColor1);
+    box-shadow: var(--shadow);
 }
 main ul{
     list-style: none;
@@ -158,7 +144,7 @@ main ul{
 /* section */
 /* .project-collection */
 .project-collection{ 
-    background-color: var(--bgWhite1);
+    background-color: var(--bgColor1);
     padding-bottom: 10rem;
     padding-top: 2rem;
     height: 100%;
@@ -174,17 +160,14 @@ main ul{
     position: absolute;
     top: 0.5rem;
     right: 1.3rem;
-    /* margin-left: 2rem; */
-
     font-size: 2em;
     cursor: pointer;
-    color: var(--txtColor);
     padding: 0.5rem;
     border-radius: var(--defaultRadius);
 }
 
 .project-collection .fa-xmark:hover{
-    background-color: var(--bgGray2);
+    background-color: var(--bgColor2);
 }
 /* width */
 ::-webkit-scrollbar {
@@ -192,12 +175,12 @@ main ul{
 } 
 /* Track */
 ::-webkit-scrollbar-track {
-    background: var(--bgWhite1); 
+    background: var(--bgColor1); 
     border-radius: 1rem;
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    background: var(--txtColor); 
+    background: var(--accentColor1); 
     border-radius: 1rem;
 } 
 .project-collection article{
@@ -226,6 +209,9 @@ main ul{
     gap: 1rem;
     padding: 0.6rem;
 }
+.selected{
+    background-color: var(--accentColor1);
+}
 .project-collection .user-project ul li .project-text{
     display: flex;
     gap: 1rem;
@@ -236,7 +222,7 @@ main ul{
 } 
 .project-collection .user-project ul li > i:hover{
     cursor: pointer;
-    background-color: var(--bgGray1);
+    background-color: var(--bgColor1);
 }
 .project-collection .user-project .btn{
     display: flex;
@@ -250,11 +236,11 @@ main ul{
 .todo-list{
     flex: 3;
     padding: 1.5rem 1.5rem 5.5rem 1.5rem;
+    overflow: hidden;
 }
 .todo-list article > h3{
     font-size: 1.5em;
-    background-color: var(--green);
-    color: var(--txtColor);
+    background-color: var(--bgColor1);
     padding: 1.5rem;
     border-radius: var(--defaultRadius);
 }
@@ -273,8 +259,27 @@ main ul{
     gap: 1rem;
     border-radius: var(--defaultRadius);
     padding: 1rem;
-    background-color: var(--bgWhite1);
-    color: var(--txtColor);
+    background-color: var(--bgColor1);
+    overflow-x: hidden;
+}
+li.show{
+    animation: show 1.2s both ease-in-out;
+}
+@keyframes show{
+    from{
+        opacity: 0;
+        transform: scale(0.6) translateX(100%);
+    }
+    to{
+        opacity: 1;
+        transform: none;
+    }
+}
+.todo-list article ul li .todo-text{
+    flex: 2;
+}
+.todo-list article ul li .todo-plan, .todo-list article ul li .todo-icon{
+    flex: 1;
 }
 .todo-list article ul li i{
     padding: 0.4rem;
@@ -283,7 +288,7 @@ main ul{
 .todo-list article ul li .todo-text i:hover,
 .todo-list article ul li .todo-icon i:hover{
     cursor: pointer;
-    background-color: var(--bgGray2);
+    background-color: var(--bgColor2);
 }
 .todo-list article ul li .todo-text{
     display: flex;
@@ -298,13 +303,12 @@ main ul{
     gap: 1rem;
 }
 .todo-check{
-    color: var(--green);
+    color: var(--accentColor1);
 } 
 .todo-star{
-    color: var(--yellow);
+    color: var(--accentColor2);
 }
 .todo-list article .btn{
-    background-color: var(--green);
     width: 100%;
     display: flex;
     align-items: center;
@@ -323,8 +327,8 @@ aside{
     justify-content: center;
     align-items: center;
 }
-aside form .form-project, aside form .form-todo{
-    background-color: var(--bgGray2);
+aside form{
+    background-color: var(--bgColor1);
     font-size: 1.01em;
     padding: 1.5rem;
     border-radius: var(--defaultRadius);
@@ -340,12 +344,15 @@ aside form input{
     padding: 0.2rem 0.4rem;
     border-radius: var(--defaultRadius);
 }
+aside form input[type="date"]{
+    padding: 0.1rem 0.3rem;
+}
 aside form input[type="checkbox"]{
     transform: scale(1.8);
     margin-right: 0.25rem;
 }
-aside form .form-todo .todo-date, 
-aside form .form-todo .todo-important{
+aside form .todo-date, 
+aside form .todo-important{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -369,10 +376,15 @@ aside form .form-btn button:hover{
     border-color: var(--txtColor);
 }
 aside form .form-btn button[type="submit"]{
-    background-color: var(--green);
+    background-color: var(--accentColor1);
 }
 aside form .form-btn button[type="button"]{
-    background-color: var(--bgGray1);
+    background-color: var(--accentColor2);
+}
+aside form .err-msg{
+    text-align: center;
+    color: red;
+    font-weight: bold;
 }
 .overlay{
     width: 100%;
@@ -389,12 +401,12 @@ footer{
     bottom: 0;
     width: 100%;
     height: 5rem;
-    background-color: var(--bgWhite1);
+    background-color: var(--bgColor1);
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    color: var(--green);
+    color: var(--accentColor1);
 }
 footer a{
     text-decoration: none;
@@ -402,8 +414,8 @@ footer a{
     border: solid 0.3rem transparent;
 }
 footer a:hover{
-    color: var(--green);
-    border-bottom-color: var(--green);
+    color: var(--accentColor1);
+    border-bottom-color: var(--accentColor1);
 }
 
 /* media queries */
@@ -417,6 +429,15 @@ footer a:hover{
 }
 @media(max-width: 530px){
     :root{
-        font-size: 0.7em;
+        font-size: 0.6em;
+    }
+    .todo-list article ul li .todo-text{
+        flex: 3;
+    }
+    .todo-list article ul li .todo-plan{
+        flex: 2;
+    }
+    .todo-list article ul li .todo-icon{
+        flex: 1;
     }
 }
