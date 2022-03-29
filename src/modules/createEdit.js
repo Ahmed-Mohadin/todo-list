@@ -9,9 +9,9 @@ const createEdit = (() => {
     }
 
     const initButtons = () => {        
-        
         const formProject = document.querySelector('aside .form-project');
         const formTodo = document.querySelector('aside .form-todo');
+        const projectPen = document.querySelectorAll('.user-project ul li .fa-pen-to-square');
 
         window.addEventListener('click', displayForm);
 
@@ -122,7 +122,7 @@ const createEdit = (() => {
                     <i class="fa-solid fa-calendar-check"></i>
                     <span>${project.title}</span>
                 </span>
-                <i class="fa-solid fa-ellipsis-vertical"></i>
+                <i class="fa-solid fa-pen-to-square" id="${project.id}"></i>
             </li>`     
         );
     }
@@ -140,7 +140,7 @@ const createEdit = (() => {
                 </div>
                 <div class="todo-icon">
                     <i class="fa-solid fa-star ${todo.important ? "todo-star" : null}"></i>
-                    <i class="fa-solid fa-ellipsis-vertical"></i>    
+                    <i class="fa-solid fa-pen-to-square" id="${todo.id}"></i>
                 </div>
             </li>`
         );
@@ -171,13 +171,6 @@ const createEdit = (() => {
 
     const errMsg = (text, target) => {
         document.querySelector(`.${target} .err-msg`).innerText = text;
-    }
-
-
-    const selected = (node) => {
-        const selected = document.querySelector('.selected');
-        selected.classList.remove('.selected');
-        node.classList.add('selected');
     }
 
     return {addEvent, renderProject, renderTodos}

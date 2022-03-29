@@ -25,22 +25,28 @@ const page = (() => {
 
     const render = () => {
         const projectTitle = document.querySelector('.user-list .project-title');
-        projectTitle.addEventListener('click', (e) => console.log(e.target.id));
-
         const defaultProject = document.querySelectorAll('.default-project ul li');
         const userProject = document.querySelectorAll('.user-project ul li');
 
         defaultProject.forEach((project) => {
-            project.addEventListener('click', (e) => {
-                displayTitle(projectTitle, e.target.innerText, e.target.id);
-                createEdit.renderTodos(e.target.id);
+            if(projectTitle.id == project.id){
+                selected(project);
+            }
+            project.addEventListener('click', () => {
+                displayTitle(projectTitle, project.innerText, project.id);
+                createEdit.renderTodos(project.id);
+                selected(project.target);
             });
         });
 
         userProject.forEach((project) => {
-            project.addEventListener('click', (e) => {
-                displayTitle(projectTitle, e.target.innerText, e.target.id);
-                createEdit.renderTodos(e.target.id);
+            if(projectTitle.id == project.id){
+                selected(project);
+            }
+            project.addEventListener('click', () => {
+                displayTitle(projectTitle, project.innerText, project.id);
+                createEdit.renderTodos(project.id);
+                selected(project);
             });
         })
     }
@@ -86,6 +92,16 @@ const page = (() => {
         target.id = id;
         target.innerText = `${title}`;
         navWidth('0rem');
+    }
+
+    const selected = (target) => {
+        resetSelected();
+        target.classList.add('selected');
+    }
+
+    const resetSelected = () => {
+        document.querySelectorAll('.default-project ul li').forEach((prj) => prj.classList.remove('selected'));
+        document.querySelectorAll('.user-project ul li').forEach((prj) => prj.classList.remove('selected'));
     }
     
     return {loadPage, loadTheme, getCurrentTheme, navWidth}

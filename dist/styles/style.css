@@ -209,6 +209,9 @@ main ul{
     gap: 1rem;
     padding: 0.6rem;
 }
+.selected{
+    background-color: var(--accentColor1);
+}
 .project-collection .user-project ul li .project-text{
     display: flex;
     gap: 1rem;
@@ -260,7 +263,7 @@ main ul{
     overflow-x: hidden;
 }
 li.show{
-    animation: show 1.2s both ease-in;
+    animation: show 1.2s both ease-in-out;
 }
 @keyframes show{
     from{
