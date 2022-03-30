@@ -1,6 +1,3 @@
-import page from './modules/page';
+import ui from './modules/ui';
 
-document.addEventListener('DOMContentLoaded', () => {
-    page.loadTheme(page.getCurrentTheme());
-    page.loadPage();
-});
+document.addEventListener('DOMContentLoaded', ui.loadPage());

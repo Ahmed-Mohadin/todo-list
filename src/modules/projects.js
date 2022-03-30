@@ -11,10 +11,12 @@ class Projects{
         this.projects.push(newProject);
     }
 
+    exists(title){
+        return this.projects.find((project) => project.title == title);
+    }
+
     deleteProject(projectId){
-        this.projects = this.projects.filter((project) => {
-            project.id !== projectId;
-        })
+        this.projects = this.projects.filter((project) => project.id != projectId);
     }
 
     addTodo(title, date, important, projectId){
