@@ -1,5 +1,5 @@
 class Todo{
-    constructor(title = "No title", date = 'No date', important = false){
+    constructor(title, date, important){
         this.id = Date.now();
         this.title = title;
         this.date = date;

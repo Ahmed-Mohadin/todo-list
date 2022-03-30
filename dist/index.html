@@ -29,7 +29,7 @@
                 <i class="fa-solid fa-xmark"></i>
                 <h2>Home</h2>
                 <ul class="projects">
-                    <li id="all-task">
+                    <li id="all-task" class="selected">
                         <i class="fa-solid fa-inbox"></i> 
                         All Tasks
                     </li>
@@ -51,15 +51,7 @@
             <!-- created user projects -->
             <article class="user-project">
                 <h2>Projects</h2>
-                <ul class="projects">
-                    <li class="project-item">
-                        <span class="project-text">
-                            <i class="fa-solid fa-calendar-check"></i>
-                            <span>Project 1</span>
-                        </span>
-                        <i class="fa-solid fa-pen-to-square"></i>
-                    </li>     
-                </ul>
+                <ul class="projects"></ul>
                 <button class="btn add-project"><i class="fa-solid fa-plus"></i> Add Project</button>
             </article>
 
@@ -67,23 +59,11 @@
 
         <section class="todo-list">
             <article class="user-list">
-                <h3 class="project-title" id="all-task">All Tasks</h3>
-                <ul class="todos">
-                    <li class="todo-item">
-                        <div class="todo-text">
-                            <i class="fa-solid fa-circle-check todo-check"></i>
-                            <span>Todo 1</span>
-                        </div>
-                        <div class="todo-plan">
-                            <i class="fa-solid fa-calendar-week"></i>
-                            <span>2022/03/18</span>    
-                        </div>
-                        <div class="todo-icon">
-                            <i class="fa-solid fa-star todo-star"></i>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                        </div>
-                    </li>         
-                </ul>
+                <div class="todo-info">
+                    <h3 class="project-title" id="all-task">All Tasks</h3>    
+                    <span id="todo-count">No Tasks Remaining</span>
+                </div>
+                <ul class="todos"></ul>
                 <button class="btn add-todo"><i class="fa-solid fa-plus"></i> Add Todo</button>
             </article>
         </section>
@@ -107,9 +87,9 @@
             <p class="err-msg"></p>
             <div class="form-input">
                 <i class="fa-solid fa-circle-check"></i>
-                <label for="todo-name">What to do?</label>
+                <label for="todo-title">What to do?</label>
             </div>
-            <input type="text" name="todo-name" id="todo-name" maxlength="20"> 
+            <input type="text" name="todo-title" id="todo-title" maxlength="20"> 
             <div class="form-input todo-date">
                 <div>
                     <i class="fa fa-calendar-week"></i>

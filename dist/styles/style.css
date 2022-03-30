@@ -238,11 +238,20 @@ main ul{
     padding: 1.5rem 1.5rem 5.5rem 1.5rem;
     overflow: hidden;
 }
-.todo-list article > h3{
-    font-size: 1.5em;
+.todo-list article .todo-info{
     background-color: var(--bgColor1);
     padding: 1.5rem;
     border-radius: var(--defaultRadius);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: bold;
+}
+.todo-list article .todo-info h3{
+    font-size: 1.5em;
+}
+.todo-list article .todo-info span{
+    color: var(--accentColor1);
 }
 .todo-list article ul{
     margin-top: 1rem;
@@ -326,6 +335,9 @@ aside{
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 aside form{
     background-color: var(--bgColor1);
@@ -385,11 +397,6 @@ aside form .err-msg{
     text-align: center;
     color: red;
     font-weight: bold;
-}
-.overlay{
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
 }
 .not-active{
     display: none !important;
