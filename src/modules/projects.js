@@ -11,10 +11,16 @@ class Projects{
         this.projects.push(newProject);
     }
 
+    editProject(title, projectId){
+        this.projects.forEach((project) => {
+            if(project.id == projectId) project.title = title;
+        });
+    }
+
     exists(title){
         return this.projects.find((project) => project.title == title);
     }
-
+    
     deleteProject(projectId){
         this.projects = this.projects.filter((project) => project.id != projectId);
     }
@@ -24,21 +30,18 @@ class Projects{
         this.projects.find((project) => project.id == projectId).todos.push(newTodo);
     }
 
-    editTodo(title, date, completed, important, projectId, todoId){
-        const findProject = this.projects.find((project) => project.id === projectId);
-        const findTodo = findProject.todos.find((todo) => todo.id === todoId);
-
+    editTodo(title, date, important, projectId, todoId){
+        let findProject = this.projects.find((project) => project.id == projectId);
+        let findTodo = findProject.todos.find((todo) => todo.id == todoId);
         findTodo.title = title;
         findTodo.date = date;
-        findTodo.completed = completed;
         findTodo.important = important;
     }
 
     removeTodo(projectId, todoId){
-        const findProject = this.projects.find((project) => project.id === projectId);
-        const findTodo = findProject.todos.find((todo) => todo.id === todoId);
-        
-        findProject = findProject.todos.filter((todo) => todo.id !== findTodo.id);
+        let findProject = this.projects.find((project) => project.id == projectId);
+        let findTodo = findProject.todos.find((todo) => todo.id == todoId);
+        findProject.todos = findProject.todos.filter((todo) => todo.id != findTodo.id);
     }
 
     saveProjects(){

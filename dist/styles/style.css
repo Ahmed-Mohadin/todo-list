@@ -1,20 +1,22 @@
 /* core */
 :root{    
-    --bgColor1-light: #FCFAFA;   
-    --bgColor2-light: #D4D7D9;
+    --bgColor1-light: #FDFFFF;   
+    --bgColor2-light: #EFEFEF;
     --txtColor-light: #333333;
-    --accentColor1-light: #6EEB83;
-    --accentColor2-light: #E4FF1A;
-    --shadow-light: rgba(0, 0, 0, 0.24) 0.25rem 0.25rem 0.25rem;
+    --accentColor1-light: #2ABD67;
+    --accentColor2-light: #2DF41A;
+    --onError-light: #FF4F3F;
+    --shadow-light: rgba(0, 0, 0, 0.24) 0.2rem 0.2rem 0.2rem;
 
-    --bgColor1-dark: #1A1A1B;   
-    --bgColor2-dark: #030303;
+    --bgColor1-dark: #32383D;   
+    --bgColor2-dark: #22282C;
     --txtColor-dark: #DAE0E6;
-    --accentColor1-dark: #3E8A40;
-    --accentColor2-dark: #BDD319;
-    --shadow-dark: rgba(255, 255, 255, 0.24) 0.25rem 0.25rem 0.25rem;
+    --accentColor1-dark: #2ABD67;
+    --accentColor2-dark: #2DF41A;
+    --onError-dark: #FF4F3F;
+    --shadow-dark: rgba(255, 255, 255, 0.24) 0.2rem 0.2rem 0.2rem;
 
-    --defaultRadius: 0.6rem;
+    --defaultRadius: 0.3rem;
 }
 /* custom light-dark mode */
 @media(prefers-color-scheme: light){
@@ -24,6 +26,7 @@
         --txtColor: var(--txtColor-light);
         --accentColor1: var(--accentColor1-light);
         --accentColor2: var(--accentColor2-light);
+        --onError: var(--onError-light);    
         --shadow: var(--shadow-light);
     }
 }
@@ -34,6 +37,7 @@
         --txtColor: var(--txtColor-dark);
         --accentColor1: var(--accentColor1-dark);
         --accentColor2: var(--accentColor2-dark);
+        --onError: var(--onError-dark);    
         --shadow: var(--shadow-dark);
     }
 }
@@ -43,6 +47,7 @@
     --txtColor: var(--txtColor-light);
     --accentColor1: var(--accentColor1-light);
     --accentColor2: var(--accentColor2-light);
+    --onError: var(--onError-light);    
     --shadow: var(--shadow-light);
 }
 [color-scheme="dark"]{
@@ -51,6 +56,7 @@
     --txtColor: var(--txtColor-dark);
     --accentColor1: var(--accentColor1-dark);
     --accentColor2: var(--accentColor2-dark);
+    --onError: var(--onError-dark);    
     --shadow: var(--shadow-dark);
 }
 *{
@@ -121,7 +127,7 @@ main .btn, main ul li{
     text-align: left;
     padding: 0.4rem 1.2rem;
     border-radius: var(--defaultRadius);
-    font-size: 1.02em;
+    font-size: 1em;
     cursor: pointer;
 }
 main .btn{
@@ -146,17 +152,15 @@ main ul{
 .project-collection{ 
     background-color: var(--bgColor1);
     padding-bottom: 10rem;
-    padding-top: 2rem;
-    height: 100%;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    width: 0;
-    left: 0;
+    padding-top: 0.5rem;    
+    width: 21rem;
+    height: 100vh;
     overflow-x: hidden;
-    transition: 0.5s;
+    transition: width 0.75s;
+    color: var(--txtColor);
 }
 .project-collection .fa-xmark{
+    display: none;
     position: absolute;
     top: 0.5rem;
     right: 1.3rem;
@@ -165,10 +169,10 @@ main ul{
     padding: 0.5rem;
     border-radius: var(--defaultRadius);
 }
-
 .project-collection .fa-xmark:hover{
     background-color: var(--bgColor2);
 }
+
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
@@ -190,14 +194,14 @@ main ul{
     gap: 0.4rem;
 }
 .project-collection .default-project ul{
-    gap: 0.6rem;
+    gap: 0.4rem;
 }
 .project-collection .default-project ul li{
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 1rem;
-    padding: 0.6rem;
+    padding: 0.4rem;
 }
 .project-collection .user-project ul{
     gap: 0.4rem;
@@ -207,7 +211,7 @@ main ul{
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    padding: 0.6rem;
+    padding: 0.4rem;
 }
 .selected{
     background-color: var(--accentColor1);
@@ -215,32 +219,34 @@ main ul{
 .project-collection .user-project ul li .project-text{
     display: flex;
     gap: 1rem;
+    word-break: break-word; 
 }
 .project-collection .user-project ul li > i{
-    padding: 0.4rem;
     border-radius: var(--defaultRadius);
+    padding: 0.3rem;
 } 
 .project-collection .user-project ul li > i:hover{
-    cursor: pointer;
-    background-color: var(--bgColor1);
+    background-color: var(--bgColor2);
 }
-.project-collection .user-project .btn{
+.project-collection .user-project .add-project{
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
+    overflow-x: hidden;
     gap: 1rem;
-    padding: 0.6rem;
+    padding: 0.5rem;
 }
 
 /* .todo-list */
 .todo-list{
-    flex: 3;
-    padding: 1.5rem 1.5rem 5.5rem 1.5rem;
+    width: 55rem;
+    margin: 0 auto;
+    padding: 1.5rem;
     overflow: hidden;
 }
 .todo-list article .todo-info{
     background-color: var(--bgColor1);
-    padding: 1.5rem;
+    padding: 1.25rem;
     border-radius: var(--defaultRadius);
     display: flex;
     align-items: center;
@@ -248,7 +254,7 @@ main ul{
     font-weight: bold;
 }
 .todo-list article .todo-info h3{
-    font-size: 1.5em;
+    word-break: break-word; 
 }
 .todo-list article .todo-info span{
     color: var(--accentColor1);
@@ -257,21 +263,21 @@ main ul{
     margin-top: 1rem;
     padding: 0.5rem 0rem;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.4rem;
 }
 .todo-list article ul li{
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 1.01em;
+    font-size: 1em;
     gap: 1rem;
     border-radius: var(--defaultRadius);
-    padding: 1rem;
+    padding: 0.4rem;
     background-color: var(--bgColor1);
     overflow-x: hidden;
 }
-li.show{
+.show{
     animation: show 1.2s both ease-in-out;
 }
 @keyframes show{
@@ -285,31 +291,31 @@ li.show{
     }
 }
 .todo-list article ul li .todo-text{
-    flex: 2;
+    flex: 1.5;
+    word-break: break-word; 
 }
 .todo-list article ul li .todo-plan, .todo-list article ul li .todo-icon{
     flex: 1;
 }
 .todo-list article ul li i{
-    padding: 0.4rem;
     border-radius: var(--defaultRadius);
+    padding: 0.3rem;
 } 
 .todo-list article ul li .todo-text i:hover,
 .todo-list article ul li .todo-icon i:hover{
-    cursor: pointer;
     background-color: var(--bgColor2);
 }
 .todo-list article ul li .todo-text{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 1rem;
+    gap: 0.3rem;
 }
 .todo-list article ul li .todo-icon{
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 1rem;
+    gap: 0.3rem;
 }
 .todo-check{
     color: var(--accentColor1);
@@ -317,12 +323,13 @@ li.show{
 .todo-star{
     color: var(--accentColor2);
 }
-.todo-list article .btn{
+.todo-list article .add-todo{
     width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 1.5rem;
-    padding: 0.8rem 1.5rem;
+    gap: 1rem;
+    padding: 0.5rem;
 }
 
 /* aside */
@@ -339,64 +346,73 @@ aside{
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
 }
-aside form{
+/* form */
+form{
     background-color: var(--bgColor1);
-    font-size: 1.01em;
-    padding: 1.5rem;
     border-radius: var(--defaultRadius);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1rem;
+    padding: 1.5rem;
+    width: 25rem;
 }
-aside form input{
+form .form-input, form .todo-date{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+form input{
+    height: 2rem;
+    width: 100%;
     outline: none;
-    border: solid 0.1rem var(--txtColor);
-    font-size: 1.01em;
-    padding: 0.2rem 0.4rem;
+    border: solid 0.075rem var(--txtColor);
+    font-size: 1em;
+    padding: 0.4rem 0.4rem;
     border-radius: var(--defaultRadius);
 }
-aside form input[type="date"]{
+form input[type="date"]{
     padding: 0.1rem 0.3rem;
+    text-align: center;
 }
-aside form input[type="checkbox"]{
-    transform: scale(1.8);
-    margin-right: 0.25rem;
+form input[type="checkbox"]{
+    transform: scale(1.25);
 }
-aside form .todo-date, 
-aside form .todo-important{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-} 
-aside form .form-btn{
+::-webkit-calendar-picker-indicator{
+    margin-left: 0px;
+}
+form .form-btn{
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
 }
-aside form .form-btn button{
+form .form-btn .btn{
     width: 100%;
     padding: 0.4rem 1.1rem;
+    border: solid 0.1rem transparent;
+    width: 100%;
     border-radius: var(--defaultRadius);
     outline: none;
-    border: solid 0.1rem transparent;
-}
-aside form .form-btn button:hover{
-    font-weight: bold;
+    text-align: center;
     cursor: pointer;
-    border-color: var(--txtColor);
+    font-weight: bold;
 }
-aside form .form-btn button[type="submit"]{
+form .form-btn .btn:hover{
+    border-color: var(--txtColor);
+    box-shadow: var(--shadow);
+}
+form .form-btn button[type="submit"]{
     background-color: var(--accentColor1);
 }
-aside form .form-btn button[type="button"]{
-    background-color: var(--accentColor2);
+form .form-btn button[type="button"]{
+    background-color: var(--onError);
 }
-aside form .err-msg{
+.err-msg{
     text-align: center;
-    color: red;
+    margin-bottom: 1rem;
     font-weight: bold;
+    color: var(--onError);
 }
 .not-active{
     display: none !important;
@@ -427,11 +443,25 @@ footer a:hover{
 
 /* media queries */
 @media(max-width: 900px){
-    .project-collection{ 
-        padding-bottom: 8rem;
-    }
     main{
         flex-direction: column;
+    }
+    .project-collection{ 
+        padding-bottom: 8rem;
+        padding-top: 2rem;
+        height: 100%;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        width: 0;
+        left: 0;
+    }   
+    .project-collection .fa-xmark{
+        display: block;
+    }
+    .todo-list{
+        width: 100%;
+        margin-bottom: 4rem;
     }
 }
 @media(max-width: 530px){
@@ -446,5 +476,8 @@ footer a:hover{
     }
     .todo-list article ul li .todo-icon{
         flex: 1;
+    }
+    form .form-btn .btn{
+        font-size: 1em;
     }
 }
