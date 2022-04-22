@@ -52,7 +52,7 @@
             <article class="user-project">
                 <h2>Projects</h2>
                 <ul class="projects"></ul>
-                <button class="btn add-project"><i class="fa-solid fa-plus"></i> Add Project</button>
+                <button class="btn add-project"><i class="fa-solid fa-circle-plus"></i></button>
             </article>
 
         </section>
@@ -64,26 +64,26 @@
                     <span id="todo-count">No Tasks Remaining</span>
                 </div>
                 <ul class="todos"></ul>
-                <button class="btn add-todo"><i class="fa-solid fa-plus"></i> Add Todo</button>
+                <button class="btn add-todo not-active"><i class="fa-solid fa-circle-plus"></i></button>
             </article>
         </section>
     </main>
     <aside class="not-active">
         <!-- add a new project form -->
         <form class="form-project not-active">
-            <p class="err-msg"></p>
+            <p class="err-msg"></p>    
             <div class="form-input">
                 <i class="fa-solid fa-calendar-check"></i>
                 <input type="text" name="project-name" id="project-name" maxlength="20"> 
             </div>
             <div class="form-btn">
-                <button class="btn" type="submit"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn" type="button"><i class="fa-solid fa-eraser"></i></button>   
+                <button class="btn" type="submit">Add</button>
+                <button class="btn" type="button">Cancel</button>   
             </div>
         </form>      
         <!-- add a new todo form -->        
         <form class="form-todo not-active">
-            <p class="err-msg"></p>
+            <p class="err-msg"></p>    
             <div class="form-input">
                 <i class="fa-solid fa-circle-check"></i>
                 <input type="text" name="todo-title" id="todo-title" maxlength="30"> 
@@ -91,10 +91,14 @@
             <div class="todo-date">
                 <i class="fa fa-calendar-week"></i>
                 <input type="date" name="todo-date" id="todo-date">  
+                <div class="todo-important">
+                    <i class="fa fa-calendar-xmark"></i>
+                    <input type="checkbox" name="todo-important" id="todo-important">        
+                </div>
             </div>
             <div class="form-btn">
-                <button class="btn" type="submit"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn" type="button"><i class="fa-solid fa-eraser"></i></button>
+                <button class="btn" type="submit">Add</button>
+                <button class="btn" type="button">Cancel</button>
             </div>                
         </form>
     </aside>
