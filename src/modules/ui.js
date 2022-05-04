@@ -1,29 +1,25 @@
-import { addDays, format, isEqual, isWithinInterval, parseISO } from "date-fns";
-import Projects from './projects';
 import Theme from './theme';
+import Collection from './collection';
+import { addDays, format, isEqual, isWithinInterval, parseISO } from "date-fns";
 
 const ui = (() => {
     const theme = new Theme();
-    const projects = new Projects();
-
-    const themeIcon = document.querySelector('.theme');
-    const openMenu = document.querySelector('.fa-bars');
-    const closeMenu = document.querySelector('.fa-xmark');
-    const projectCollection = document.querySelector('.project-collection');
+    const collection = new Collection();
 
     const defaultProject = document.querySelectorAll('.default-project ul li');
 
-    const addProjectBtn = document.querySelector('.user-project .add-project');
     const formProject = document.querySelector('aside .form-project');
+    const addProjectBtn = document.querySelector('.user-project .add-project');
+    const deleteProjectBtn = document.querySelector('.form-project button[type="button"]');
+    const projectName = document.querySelector('input[name="project-name"]');
+
+    const formTodo = document.querySelector('aside .form-todo');
+    const addTodoBtn = document.querySelector('.todo-list .add-todo');
+    const deleteTodoBtn = document.querySelector('.form-todo button[type="button"]');
     const todoTitle = document.querySelector('input[name="todo-title"]');
     const todoDate = document.querySelector('input[name="todo-date"]');
     const todoImportant = document.querySelector('input[name="todo-important"]');
-    const deleteProjectBtn = document.querySelector('.form-project button[type="button"]');
 
-    const addTodoBtn = document.querySelector('.todo-list .add-todo');
-    const formTodo = document.querySelector('aside .form-todo');
-    const projectName = document.querySelector('input[name="project-name"]');
-    const deleteTodoBtn = document.querySelector('.form-todo button[type="button"]');
     const aside = document.querySelector('aside');
 
     const projectTitle = document.querySelector('.project-title');
@@ -31,50 +27,40 @@ const ui = (() => {
     const userProject = document.querySelector('.user-project ul');
     const userList = document.querySelector('.user-list ul');
 
-    let id = '';
+    let id = "";
 
-    // Loads the page
-    const loadPage = () => {
-        loadTheme(getCurrentTheme());
-        initButtons();   
+    // Loads page
+    const initPage = () => {
+        loadMode(theme.getCurrentMode());
+        initPageEvents();
     }
 
-    // Add event listeners
-    const initButtons = () => {        
-        themeIcon.addEventListener('click', switchTheme);
-        openMenu.addEventListener('click', () => {
-            projectCollection.style.width == '21rem' ? sideNav('0rem') : sideNav('21rem');
-        });
-        closeMenu.addEventListener('click', () => sideNav('0rem'));
-
+    // Loads page events
+    const initPageEvents = () => {
+        document.querySelector('.theme').onclick = () => switchMode();
+        document.querySelector('.fa-bars').onclick = () => sideNav();
+        document.querySelector('.fa-xmark').onclick = () => sideNav();
         window.addEventListener('click', displayForm);
-
-        addProjectBtn.addEventListener('click', () => {
-            formProject.addEventListener('submit', handleCreateProject);
-        });
-
-        addTodoBtn.addEventListener('click', () => {
-            formTodo.addEventListener('submit', handleCreateTodo);    
-        });
-
+        addProjectBtn.onclick = () => formProject.addEventListener('submit', handleCreateProject);
+        addTodoBtn.onclick = () => formTodo.addEventListener('submit', handleCreateTodo);
         defaultProject.forEach((project) => {
             addTodoBtn.classList.add('not-active');
             project.addEventListener('click', () => {
                 selectProject(project);
                 getTodos(project.id);
-            });
+                initTodoEvents();
+            })
         })
     }
 
-    const initProjectButtons = () => {
+    // Loads project and todo events
+    const initProjectEvents = () => {
         const userProject = document.querySelectorAll('.user-project ul li'); 
         userProject.forEach((project) => {
-            if(projectTitle.id == project.id){
-                project.classList.add('selected');
-            }
+            if(project.innerText == projectTitle.innerText) project.classList.add('selected');
             project.addEventListener('click', (e) => {
                 if(e.target.classList.contains('fa-pen-to-square')){
-                    document.querySelector('input[name="project-name"]').value = `${project.innerText}`;
+                    projectName.value = `${project.innerText}`;
                     openForm(formProject);
                     deleteProjectBtn.addEventListener('click', handleDeleteProject);
                     formProject.addEventListener('submit', handleEditProject);
@@ -87,27 +73,41 @@ const ui = (() => {
         });
     }
 
-    const initTodoButtons = () => {
+    const initTodoEvents = () => {
         const userTodos = document.querySelectorAll('.user-list ul li');
-        userTodos.forEach((todo, index) => {
+        userTodos.forEach((todo) => {
             todo.addEventListener('click', (e) => {
                 id = e.target.id;
                 if(e.target.classList.contains('fa-circle-check')){
                     e.target.classList.toggle('todo-check');
-                    todoCheck(index);
+                    collection.todoCheck(todo.id);
+                    collection.sortTodos();
+                    const id = getSelectedId();
+                    if(id == 'all-task' || id == 'today' || id == 'this-week' || id == 'important'){
+                        getTodos(getSelectedId());
+                    } else{
+                        renderTodos(getSelectedId());
+                    }
                 }
                 if(e.target.classList.contains('fa-star')){
                     e.target.classList.toggle('todo-star');
-                    todoStar(index);
+                    collection.todoStar(todo.id);
+                    collection.sortTodos();
+                    const id = getSelectedId();
+                    if(id == 'all-task' || id == 'today' || id == 'this-week' || id == 'important'){
+                        getTodos(getSelectedId());
+                    } else{
+                        renderTodos(getSelectedId());
+                    }
                 }
                 if(e.target.classList.contains('fa-pen-to-square')){
-                    projects.projects.forEach((prj) => {
-                        if(prj.id == document.querySelector('.selected').id){
-                            prj.todos.forEach((todo) => {
-                                if(todo.id == e.target.id){
-                                    todoTitle.value = `${todo.title}`;
-                                    todoDate.value = `${todo.date}`;
-                                    todoImportant.checked = todo.important;                
+                    collection.projects.forEach((prj) => {
+                        if(prj.id == getSelectedId()){
+                            prj.todos.forEach((prjTodo) => {
+                                if(prjTodo.id == todo.id){
+                                    todoTitle.value = `${prjTodo.title}`;
+                                    todoDate.value = `${prjTodo.date}`;
+                                    todoImportant.checked = prjTodo.important;                
                                 }                                
                             })
                         }
@@ -122,101 +122,49 @@ const ui = (() => {
         });
     }
 
-    const todoCheck = (todoIndex) => {
-        projects.projects.forEach((prj) => {
-            prj.todos.forEach((todo, index) => {
-                if(todoIndex == index){
-                    if(todo.completed){
-                        todo.completed = false;
-                    } else{
-                        todo.completed = true;
-                    }    
-                }
-            })
-        });
-        sortTodos();  
+    const sortRender = () => {
+        collection.sortTodos();
+        renderTodos(getSelectedId());
     }
 
-    const sortTodos = () => {
-        projects.projects.forEach((prj) => {
-            prj.todos.sort((a, b) => {
-                if(a.completed && !b.completed) return 1;
-                else if(!a.completed && b.completed) return -1;
-                else if(a.important && !b.important) return -1;
-                else if(!a.important && b.important) return 1;
-                else if(a.date > b.date) return 1;
-                else if(a.date < b.date) return -1;
-                else return 0;
-            })
-        });
-        renderTodos(projectTitle.id);            
+    // Switches mode and loads mode
+    const switchMode = () => {
+        theme.switchMode();
+        loadMode(theme.mode);
     }
 
-    const todoStar = (todoIndex) => {
-        projects.projects.forEach((prj) => {
-            prj.todos.forEach((todo, index) => {
-                if(todoIndex == index){
-                    if(todo.important){
-                        todo.important = false;
-                    } else{
-                        todo.important = true;
-                    }    
-                }
-            })
-        });
-        sortTodos();    
-    }
-
-    // Switches theme
-    const switchTheme = () => {
-        theme.switchMode();    
-        loadTheme(theme.mode);
-        theme.saveMode();
-    }
-
-    // Gets the current theme
-    const getCurrentTheme = () => {        
-        if(theme.restoreMode()){
-            return theme.mode = theme.restoreMode();
-        }
-        // matchMedia method supported
-        else if(window.matchMedia){
-            // OS theme setting detected as dark
-            if(window.matchMedia('(prefers-color-scheme: dark)').matches){
-                theme.mode = 'dark';
-            } else{
-                theme.mode = 'light';
-            }
-        }
-    }
-    
-    // loads theme
-    const loadTheme = (theme) => {
+    // Loads mode, change color-scheme in root
+    const loadMode = (mode) => {
         const root = document.querySelector(':root');
-        root.setAttribute('color-scheme', `${theme}`); 
+        root.setAttribute('color-scheme', `${mode}`);
     }
 
-    // Opens,Closes project collection
-    const sideNav = (width) => projectCollection.style.width = `${width}`;
+    // Sidenav, change the width of it to close or open it
+    const sideNav = () => {
+        const projectCollection = document.querySelector('.project-collection');
+        if(projectCollection.offsetWidth == 336){
+            projectCollection.style.width = '0rem';
+        } else{
+            projectCollection.style.width = '21rem';
+        }
+    }
 
     // Displays form
-    const displayForm = (e) => { 
-        if((addProjectBtn.contains(e.target) || formProject.contains(e.target))
-            && !deleteProjectBtn.contains(e.target) 
-            ){
+    const displayForm = (e) => {
+        if((eContains(e, 'add-project') || eContains(e, 'form-project')) && !eType(e, 'button')){
             openForm(formProject);
-        }
-        else if((addTodoBtn.contains(e.target) || formTodo.contains(e.target))
-            && !deleteTodoBtn.contains(e.target)
-            ){
+        } else if((eContains(e, 'add-todo') || eContains(e, 'form-todo')) && !eType(e, 'button')){
             openForm(formTodo);
-        }
-        else if(deleteProjectBtn.contains(e.target) || deleteTodoBtn.contains(e.target)
-            || aside.contains(e.target) 
-            ){
+        } else if(eContains(e, 'overlay') || eType(e, 'button')){
             closeForm();
-        }
+        }        
     }
+    
+    // Check if e.target classList contains className
+    const eContains = (e, className) => e.target.classList.contains(className);
+
+    // Check if e.target type is typeName 
+    const eType = (e, typeName) => e.target.type === typeName;
 
     // Opens form
     const openForm = (form) => {
@@ -229,6 +177,7 @@ const ui = (() => {
         aside.classList.add('not-active');
         formProject.classList.add('not-active');
         formTodo.classList.add('not-active');
+
         deleteProjectBtn.removeEventListener('click', handleDeleteProject);
         formProject.removeEventListener('submit', handleCreateProject);
         formProject.removeEventListener('submit', handleEditProject);
@@ -240,15 +189,16 @@ const ui = (() => {
         formTodo.removeEventListener('submit', handleEditTodo);
         document.querySelector('.form-todo button[type="submit"]').innerText = 'Add';
         document.querySelector('.form-todo button[type="button"]').innerText = 'Cancel';
+
         resetForm();
     }
 
     const handleCreateProject = (e) => {
         e.preventDefault();
-        if(projects.exists(projectName.value)){
-            errMsg('form-project', 'Project Already Exist');            
+        if(collection.foundProject(projectName.value)){
+            errMsg('form-project', 'Project Already Exist'); 
         } else if(projectName.value !== '' ){
-            projects.createProject(projectName.value);
+            collection.addProject(projectName.value);
             renderProject();
             closeForm();
         } else{
@@ -258,13 +208,14 @@ const ui = (() => {
 
     const handleEditProject = (e) => {
         e.preventDefault();
-        if(projects.exists(projectName.value) && projectName.value !== projectTitle.innerText){
+        const nameValue = projectName.value; 
+        if(collection.foundProject(nameValue) && nameValue !== document.querySelector('.selected').innerText){
             errMsg('form-project', 'Project Already Exist');            
         } else if(projectName !== ''){
-            projects.editProject(projectName.value, projectTitle.id);
+            const selected = document.querySelector('.selected');
+            collection.editProject(projectName.value, getSelectedId());
+            displayTitle(projectTitle, nameValue, getSelectedId());
             renderProject();
-            displayTitle(projectTitle, projectName.value, projectTitle.id)
-            renderTodos(projectTitle.id);
             closeForm();
         } else{
             errMsg('form-project', 'Invalid Project');
@@ -272,19 +223,20 @@ const ui = (() => {
     }
 
     const handleDeleteProject = () => {
-        projects.deleteProject(projectTitle.id);
+        collection.deleteProject(document.querySelector('.selected').id);
         renderProject();
-        const all = document.querySelector('#all-task');
-        selectProject(all);
-        getTodos(all.id);
+        selectProject(document.querySelector('#all-task'));
+        getTodos(document.querySelector('#all-task').id);
     }
 
+    // 
     const handleCreateTodo = (e) => {
         e.preventDefault();
+        const selected = document.querySelector('.selected');
         if(todoTitle.value !== ''){
             const toDate = todoDate.value == '' ? 'No Due Date' : todoDate.value;
-            projects.addTodo(todoTitle.value, toDate, todoImportant.checked, projectTitle.id);
-            sortTodos();
+            collection.addTodo(todoTitle.value, toDate, todoImportant.checked, getSelectedId());
+            sortRender();
             closeForm();
         } else{
             errMsg('form-todo', 'Invalid Todo');
@@ -295,17 +247,17 @@ const ui = (() => {
         e.preventDefault();
         if(todoTitle.value !== ''){
             const toDate = todoDate.value == '' ? 'No Due Date' : todoDate.value;
-            projects.editTodo(todoTitle.value, toDate, todoImportant.checked, projectTitle.id, id);
-            sortTodos();
+            collection.editTodo(todoTitle.value, toDate, todoImportant.checked, getSelectedId(), id);
+            sortRender();
             closeForm();
         } else{
             errMsg('form-todo', 'Invalid Todo');
         }
     }
 
-    const handleDeleteTodo = (e) => {
-        projects.removeTodo(projectTitle.id, id);
-        renderTodos(projectTitle.id);
+    const handleDeleteTodo = () => {
+        collection.deleteTodo(getSelectedId(), id);
+        renderTodos(getSelectedId());
     }
 
     const resetForm = () => {
@@ -313,6 +265,12 @@ const ui = (() => {
         todoTitle.value = '';
         todoDate.value = '';
         todoImportant.checked = false;
+    }
+
+    const errMsg = (target, text) => {
+        const error = document.querySelector(`.${target} .err-msg`);
+        error.innerText = text;
+        setTimeout(() => error.innerText = '', 3000);
     }
 
     const addProject = (project) => {
@@ -345,27 +303,27 @@ const ui = (() => {
             </li>`
         );
     }
-    
+
     const renderProject = () => {
         userProject.innerHTML = '';
-        projects.projects.forEach((project) => {
+        collection.projects.forEach((project) => {
             userProject.innerHTML += addProject(project);
         });
         addShow('.user-project ul li');
-        initProjectButtons();
+        initProjectEvents();
     }
 
     const renderTodos = (projectId) => {
         userList.innerHTML = '';
         let count = 0;
-        const project = projects.projects.find((project) => project.id == projectId);
+        const project = collection.projects.find((project) => project.id == projectId);
         project.todos.forEach((todo) => {
             if(todo.completed) count++;
             userList.innerHTML += addTodo(todo);
         });
         addShow('.user-list ul li');
         addTodoBtn.classList.remove('not-active');
-        initTodoButtons();
+        initTodoEvents();
         countTodos(count);
     }
 
@@ -375,12 +333,6 @@ const ui = (() => {
             item.style.opacity = '0';
             setTimeout(() => item.classList.add('show'), index * 75);
         });
-    }
-
-    const errMsg = (target, text) => {
-        const error = document.querySelector(`.${target} .err-msg`);
-        error.innerText = text;
-        setTimeout(() => error.innerText = '', 3000);
     }
 
     const displayTitle = (target, title, id) => {
@@ -396,14 +348,7 @@ const ui = (() => {
         target.classList.add('selected');
     }
 
-    const getTodos = (id) => {
-        userList.innerHTML = '';
-        if(id == 'all-task') displayAll();
-        if(id == 'today') displayToday();
-        if(id == 'this-week') displayThisWeek();
-        if(id == 'important') displayImportant();
-        addTodoBtn.classList.add('not-active');
-    }
+    const getSelectedId = () => document.querySelector('.selected').id;
 
     const countTodos = (size) => {
         const length = document.querySelectorAll('.todo-item').length;
@@ -417,9 +362,18 @@ const ui = (() => {
         }
     }
 
+    const getTodos = (id) => {
+        userList.innerHTML = '';
+        if(id == 'all-task') displayAll();
+        if(id == 'today') displayToday();
+        if(id == 'this-week') displayThisWeek();
+        if(id == 'important') displayImportant();
+        addTodoBtn.classList.add('not-active');
+    }
+
     const displayAll = () => {
         let count = 0;
-        projects.projects.forEach((prj) => {
+        collection.projects.forEach((prj) => {
             prj.todos.forEach((todo) => {
                 if(todo.completed) count++;
                 userList.innerHTML += addTodo(todo);
@@ -432,7 +386,7 @@ const ui = (() => {
     const displayToday = () => { 
         let count = 0;
         let today = Date.parse(format(new Date(), 'yyyy-MM-dd'));
-        projects.projects.forEach((prj) => {
+        collection.projects.forEach((prj) => {
             prj.todos.forEach((todo) => {
                 let date = Date.parse(todo.date);
                 if(isEqual(date, today)){
@@ -447,7 +401,7 @@ const ui = (() => {
 
     const displayThisWeek = () => {
         let count = 0;
-        projects.projects.forEach((prj) => {
+        collection.projects.forEach((prj) => {
             prj.todos.forEach((todo) => {
                 let date = parseISO(todo.date);
                 if(checkNextWeek(date)){
@@ -472,7 +426,7 @@ const ui = (() => {
 
     const displayImportant = () => {
         let count = 0;
-        projects.projects.forEach((prj) => {
+        collection.projects.forEach((prj) => {
             prj.todos.forEach((todo) => {
                 if(todo.important){
                     if(todo.completed) count++;
@@ -484,7 +438,7 @@ const ui = (() => {
         countTodos(count);
     }
 
-    return {loadPage}
+    return {initPage};
 })();
 
 export default ui;

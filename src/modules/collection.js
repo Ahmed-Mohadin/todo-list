@@ -1,12 +1,16 @@
 import Project from "./project";
 import Todo from "./todo";
 
-class Projects{
+class Collection{
     constructor(){
         this.projects = [];
     }
 
-    createProject(title){
+    foundProject(title){
+        return this.projects.find((project) => project.title == title);
+    }
+
+    addProject(title){
         const newProject = new Project(title);
         this.projects.push(newProject);
     }
@@ -15,10 +19,6 @@ class Projects{
         this.projects.forEach((project) => {
             if(project.id == projectId) project.title = title;
         });
-    }
-
-    exists(title){
-        return this.projects.find((project) => project.title == title);
     }
     
     deleteProject(projectId){
@@ -38,10 +38,52 @@ class Projects{
         findTodo.important = important;
     }
 
-    removeTodo(projectId, todoId){
+    deleteTodo(projectId, todoId){
         let findProject = this.projects.find((project) => project.id == projectId);
         let findTodo = findProject.todos.find((todo) => todo.id == todoId);
         findProject.todos = findProject.todos.filter((todo) => todo.id != findTodo.id);
+    }
+
+    todoCheck(todoId){
+        this.projects.forEach((project) => {
+            project.todos.forEach((todo) => {
+                if(todo.id == todoId){
+                    if(todo.completed){
+                        todo.completed = false;
+                    } else{
+                        todo.completed = true;
+                    }    
+                }
+            })
+        })
+    }
+
+    todoStar(todoId){
+        this.projects.forEach((project) => {
+            project.todos.forEach((todo) => {
+                if(todo.id == todoId){
+                    if(todo.important){
+                        todo.important = false;
+                    } else{
+                        todo.important = true;
+                    }    
+                }
+            })
+        })        
+    }
+
+    sortTodos(){
+        this.projects.forEach((project) => {
+            project.todos.sort((a, b) => {
+                if(a.completed && !b.completed) return 1;
+                else if(!a.completed && b.completed) return -1;
+                else if(a.important && !b.important) return -1;
+                else if(!a.important && b.important) return 1;
+                else if(a.date > b.date) return 1;
+                else if(a.date < b.date) return -1;
+                else return 0;
+            })
+        })
     }
 
     saveProjects(){
@@ -56,4 +98,4 @@ class Projects{
     }
 }
 
-export default Projects;
+export default Collection;

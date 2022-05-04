@@ -3,8 +3,8 @@ class Todo{
         this.id = Date.now();
         this.title = title;
         this.date = date;
-        this.completed = false;
         this.important = important;
+        this.completed = false;
     }
 }
 
