@@ -33,6 +33,10 @@ const ui = (() => {
     const initPage = () => {
         loadMode(theme.getCurrentMode());
         initPageEvents();
+        collection.addProject('All Tasks');
+        collection.addProject('Today');
+        collection.addProject('This Week');
+        collection.addProject('Important');
     }
 
     // Loads page events
@@ -48,7 +52,6 @@ const ui = (() => {
             project.addEventListener('click', () => {
                 selectProject(project);
                 getTodos(project.id);
-                initTodoEvents();
             })
         })
     }
@@ -82,8 +85,8 @@ const ui = (() => {
                     e.target.classList.toggle('todo-check');
                     collection.todoCheck(todo.id);
                     collection.sortTodos();
-                    const id = getSelectedId();
-                    if(id == 'all-task' || id == 'today' || id == 'this-week' || id == 'important'){
+                    const prjId = getSelectedId();
+                    if(prjId == 'all-task' || prjId == 'today' || prjId == 'this-week' || prjId == 'important'){
                         getTodos(getSelectedId());
                     } else{
                         renderTodos(getSelectedId());
@@ -93,8 +96,8 @@ const ui = (() => {
                     e.target.classList.toggle('todo-star');
                     collection.todoStar(todo.id);
                     collection.sortTodos();
-                    const id = getSelectedId();
-                    if(id == 'all-task' || id == 'today' || id == 'this-week' || id == 'important'){
+                    const prjId = getSelectedId();
+                    if(prjId == 'all-task' || prjId == 'today' || prjId == 'this-week' || prjId == 'important'){
                         getTodos(getSelectedId());
                     } else{
                         renderTodos(getSelectedId());
@@ -102,15 +105,13 @@ const ui = (() => {
                 }
                 if(e.target.classList.contains('fa-pen-to-square')){
                     collection.projects.forEach((prj) => {
-                        if(prj.id == getSelectedId()){
-                            prj.todos.forEach((prjTodo) => {
-                                if(prjTodo.id == todo.id){
-                                    todoTitle.value = `${prjTodo.title}`;
-                                    todoDate.value = `${prjTodo.date}`;
-                                    todoImportant.checked = prjTodo.important;                
-                                }                                
-                            })
-                        }
+                        prj.todos.forEach((prjTodo) => {
+                            if(prjTodo.id == todo.id){
+                                todoTitle.value = `${prjTodo.title}`;
+                                todoDate.value = `${prjTodo.date}`;
+                                todoImportant.checked = prjTodo.important;                
+                            }                                
+                        })
                     })
                     openForm(formTodo);
                     deleteTodoBtn.addEventListener('click', handleDeleteTodo);
@@ -247,8 +248,14 @@ const ui = (() => {
         e.preventDefault();
         if(todoTitle.value !== ''){
             const toDate = todoDate.value == '' ? 'No Due Date' : todoDate.value;
-            collection.editTodo(todoTitle.value, toDate, todoImportant.checked, getSelectedId(), id);
-            sortRender();
+            collection.editTodo(todoTitle.value, toDate, todoImportant.checked, id);
+            collection.sortTodos();
+            const prjId = getSelectedId();
+            if(prjId == 'all-task' || prjId == 'today' || prjId == 'this-week' || prjId == 'important'){
+                getTodos(getSelectedId());
+            } else{
+                renderTodos(getSelectedId());
+            }
             closeForm();
         } else{
             errMsg('form-todo', 'Invalid Todo');
@@ -256,8 +263,13 @@ const ui = (() => {
     }
 
     const handleDeleteTodo = () => {
-        collection.deleteTodo(getSelectedId(), id);
-        renderTodos(getSelectedId());
+        collection.deleteTodo(id);
+        const prjId = getSelectedId();
+        if(prjId == 'all-task' || prjId == 'today' || prjId == 'this-week' || prjId == 'important'){
+            getTodos(getSelectedId());
+        } else{
+            renderTodos(getSelectedId());
+        }
     }
 
     const resetForm = () => {
@@ -307,6 +319,8 @@ const ui = (() => {
     const renderProject = () => {
         userProject.innerHTML = '';
         collection.projects.forEach((project) => {
+            if(project.title == 'All Tasks' || project.title == 'Today' ||
+               project.title == 'This Week' || project.title == 'Important') return;
             userProject.innerHTML += addProject(project);
         });
         addShow('.user-project ul li');
@@ -368,6 +382,7 @@ const ui = (() => {
         if(id == 'today') displayToday();
         if(id == 'this-week') displayThisWeek();
         if(id == 'important') displayImportant();
+        initTodoEvents();
         addTodoBtn.classList.add('not-active');
     }
 

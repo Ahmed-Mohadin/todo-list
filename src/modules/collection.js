@@ -30,18 +30,26 @@ class Collection{
         this.projects.find((project) => project.id == projectId).todos.push(newTodo);
     }
 
-    editTodo(title, date, important, projectId, todoId){
-        let findProject = this.projects.find((project) => project.id == projectId);
-        let findTodo = findProject.todos.find((todo) => todo.id == todoId);
-        findTodo.title = title;
-        findTodo.date = date;
-        findTodo.important = important;
+    editTodo(title, date, important, todoId){
+        this.projects.forEach((project) => {
+            project.todos.forEach((todo) => {
+                if(todo.id == todoId){
+                    todo.title = title;
+                    todo.date = date;
+                    todo.important = important;
+                }
+            })
+        })
     }
 
-    deleteTodo(projectId, todoId){
-        let findProject = this.projects.find((project) => project.id == projectId);
-        let findTodo = findProject.todos.find((todo) => todo.id == todoId);
-        findProject.todos = findProject.todos.filter((todo) => todo.id != findTodo.id);
+    deleteTodo(todoId){
+        this.projects.forEach((project) => {
+            project.todos.forEach((todo) => {
+                if(todo.id == todoId){
+                    project.todos = project.todos.filter((todo) => todo.id != todoId);                    
+                }
+            })
+        })
     }
 
     todoCheck(todoId){
