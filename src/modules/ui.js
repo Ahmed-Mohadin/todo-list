@@ -33,6 +33,9 @@ const ui = (() => {
     const initPage = () => {
         loadMode(theme.getCurrentMode());
         initPageEvents();
+        collection.restoreProjects();
+        getTodos('all-task');
+        renderProject()
     }
 
     // Loads page events
@@ -209,7 +212,6 @@ const ui = (() => {
         if(collection.foundProject(nameValue) && nameValue !== document.querySelector('.selected').innerText){
             errMsg('form-project', 'Project Already Exist');            
         } else if(projectName !== ''){
-            const selected = document.querySelector('.selected');
             collection.editProject(projectName.value, getSelectedId());
             displayTitle(projectTitle, nameValue, getSelectedId());
             renderProject();
@@ -313,6 +315,7 @@ const ui = (() => {
     }
 
     const renderProject = () => {
+        collection.saveProjects();
         userProject.innerHTML = '';
         collection.projects.forEach((project) => {
             if(project.title == 'All Tasks' || project.title == 'Today' ||
@@ -324,6 +327,7 @@ const ui = (() => {
     }
 
     const renderTodos = (projectId) => {
+        collection.saveProjects();
         userList.innerHTML = '';
         let count = 0;
         const project = collection.projects.find((project) => project.id == projectId);
@@ -397,6 +401,7 @@ const ui = (() => {
     const displayTodos = (projectTitle) => {
         let count = 0;
         collection.sortTodos();
+        collection.saveProjects();
         collection.projects.forEach((prj) => {
             if(prj.title == projectTitle){
                 prj.todos.forEach((todo) => {
