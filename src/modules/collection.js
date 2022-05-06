@@ -1,9 +1,14 @@
+import { addDays, format, isEqual, isWithinInterval, parseISO } from "date-fns";
 import Project from "./project";
 import Todo from "./todo";
 
 class Collection{
     constructor(){
         this.projects = [];
+        this.addProject('All Tasks');
+        this.addProject('Today');
+        this.addProject('This Week');
+        this.addProject('Important');
     }
 
     foundProject(title){
@@ -54,31 +59,125 @@ class Collection{
 
     todoCheck(todoId){
         this.projects.forEach((project) => {
-            project.todos.forEach((todo) => {
-                if(todo.id == todoId){
-                    if(todo.completed){
-                        todo.completed = false;
-                    } else{
-                        todo.completed = true;
-                    }    
-                }
-            })
+            if(project.title == 'All Tasks' || project.title == 'Today' ||
+            project.title == 'This Week' || project.title == 'Important'){
+                return;
+            } else{
+                project.todos.forEach((todo) => {
+                    if(todo.id == todoId){
+                        if(todo.completed){
+                            todo.completed = false;
+                        } else{
+                            todo.completed = true;
+                        }    
+                    }
+                })    
+            }
         })
     }
 
     todoStar(todoId){
         this.projects.forEach((project) => {
-            project.todos.forEach((todo) => {
-                if(todo.id == todoId){
-                    if(todo.important){
-                        todo.important = false;
-                    } else{
-                        todo.important = true;
-                    }    
-                }
-            })
+            if(project.title == 'All Tasks' || project.title == 'Today' ||
+            project.title == 'This Week' || project.title == 'Important'){
+                return;
+            } else{
+                project.todos.forEach((todo) => {
+                    if(todo.id == todoId){
+                        if(todo.important){
+                            todo.important = false;
+                            console.log('false')
+                        } else{
+                            todo.important = true;
+                            console.log('true')
+                        }    
+                    }
+                })    
+            }
         })        
     }
+
+    getAllTodos(){
+        this.projects.forEach((project) => {
+            if(project.title == 'All Tasks'){
+                project.todos = [];
+                this.projects.forEach((prj) => {
+                    if(prj.title == 'All Tasks' || prj.title == 'Today' ||
+                    prj.title == 'This Week' || prj.title == 'Important'){
+                        return;
+                    }
+                    else{
+                        prj.todos.forEach((todo) => project.todos.push(todo));
+                        console.log(project.todos);
+                    }
+                })
+            }
+        })
+    }
+
+    getTodayTodos(){
+        let today = Date.parse(format(new Date(), 'yyyy-MM-dd'));
+        this.projects.forEach((project) => {
+            if(project.title == 'Today'){
+                project.todos = [];
+                this.projects.forEach((prj) => {
+                    if(prj.title == 'All Tasks' || prj.title == 'Today' ||
+                    prj.title == 'This Week' || prj.title == 'Important') return;
+                    prj.todos.forEach((todo) => {
+                        let date = Date.parse(todo.date);
+                        if(isEqual(date, today)){
+                            project.todos.push(todo);
+                        }        
+                    });
+                })
+            }
+        })
+    }
+
+    getTodosThisWeek(){
+        this.projects.forEach((project) => {
+            if(project.title == 'This Week'){
+                project.todos = [];
+                this.projects.forEach((prj) => {
+                    if(prj.title == 'All Tasks' || prj.title == 'Today' ||
+                    prj.title == 'This Week' || prj.title == 'Important') return;
+                    prj.todos.forEach((todo) => {
+                        let date = parseISO(todo.date);
+                        if(this.checkNextWeek(date)){
+                            project.todos.push(todo)
+                        }
+                    });
+                })
+            }
+        })
+    }
+
+    //check if the date is within the interval of next week
+    checkNextWeek(taskDate){
+        let nextWeekPlus1 = addDays(new Date(), 8);  //interval does not count the edges so plus 1
+        let today = new Date();
+        return isWithinInterval(taskDate,{
+            start: today,
+            end: nextWeekPlus1
+        });
+    }
+
+    getImportantTodos(){
+        this.projects.forEach((project) => {
+            if(project.title == 'Important'){
+                project.todos = [];
+                this.projects.forEach((prj) => {
+                    if(prj.title == 'All Tasks' || prj.title == 'Today' ||
+                    prj.title == 'This Week' || prj.title == 'Important') return;
+                    prj.todos.forEach((todo) => {
+                        if(todo.important){
+                            project.todos.push(todo)
+                        }
+                    });
+                })
+            }
+        })        
+    }    
 
     sortTodos(){
         this.projects.forEach((project) => {

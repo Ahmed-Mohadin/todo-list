@@ -33,10 +33,6 @@ const ui = (() => {
     const initPage = () => {
         loadMode(theme.getCurrentMode());
         initPageEvents();
-        collection.addProject('All Tasks');
-        collection.addProject('Today');
-        collection.addProject('This Week');
-        collection.addProject('Important');
     }
 
     // Loads page events
@@ -378,79 +374,39 @@ const ui = (() => {
 
     const getTodos = (id) => {
         userList.innerHTML = '';
-        if(id == 'all-task') displayAll();
-        if(id == 'today') displayToday();
-        if(id == 'this-week') displayThisWeek();
-        if(id == 'important') displayImportant();
+        if(id == 'all-task'){
+            collection.getAllTodos();
+            displayTodos('All Tasks');
+        };
+        if(id == 'today'){
+            collection.getTodayTodos();
+            displayTodos('Today');
+        }
+        if(id == 'this-week'){
+            collection.getTodosThisWeek();
+            displayTodos('This Week');
+        };
+        if(id == 'important'){
+            collection.getImportantTodos();
+            displayTodos('Important');
+        };
         initTodoEvents();
         addTodoBtn.classList.add('not-active');
     }
 
-    const displayAll = () => {
+    const displayTodos = (projectTitle) => {
         let count = 0;
+        collection.sortTodos();
         collection.projects.forEach((prj) => {
-            prj.todos.forEach((todo) => {
-                if(todo.completed) count++;
-                userList.innerHTML += addTodo(todo);
-                addShow('.user-list ul li');
-            });
+            if(prj.title == projectTitle){
+                prj.todos.forEach((todo) => {
+                    if(todo.completed) count++;
+                    userList.innerHTML += addTodo(todo);
+                    addShow('.user-list ul li');
+                });    
+            }
         })   
-        countTodos(count);
-    }
-
-    const displayToday = () => { 
-        let count = 0;
-        let today = Date.parse(format(new Date(), 'yyyy-MM-dd'));
-        collection.projects.forEach((prj) => {
-            prj.todos.forEach((todo) => {
-                let date = Date.parse(todo.date);
-                if(isEqual(date, today)){
-                    if(todo.completed) count++;
-                    userList.innerHTML += addTodo(todo);
-                    addShow('.user-list ul li');
-                }
-            })
-        });
-        countTodos(count);
-    }
-
-    const displayThisWeek = () => {
-        let count = 0;
-        collection.projects.forEach((prj) => {
-            prj.todos.forEach((todo) => {
-                let date = parseISO(todo.date);
-                if(checkNextWeek(date)){
-                    if(todo.completed) count++;
-                    userList.innerHTML += addTodo(todo);
-                    addShow('.user-list ul li');
-                }
-            })
-        });
-        countTodos(count);
-    }
-
-    //check if the date is within the interval of next week
-    const checkNextWeek = (taskDate) => {
-        let nextWeekPlus1 = addDays(new Date(), 8);  //interval does not count the edges so plus 1
-        let today = new Date();
-        return isWithinInterval(taskDate,{
-            start: today,
-            end: nextWeekPlus1
-        });
-    }
-
-    const displayImportant = () => {
-        let count = 0;
-        collection.projects.forEach((prj) => {
-            prj.todos.forEach((todo) => {
-                if(todo.important){
-                    if(todo.completed) count++;
-                    userList.innerHTML += addTodo(todo);
-                    addShow('.user-list ul li');
-                }
-            })
-        })   
-        countTodos(count);
+        countTodos(count);        
     }
 
     return {initPage};
