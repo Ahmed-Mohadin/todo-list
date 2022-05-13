@@ -1,8 +1,8 @@
 class Project{
-    constructor(title, todos = []){
+    constructor(title){
         this.id = Date.now();
         this.title = title;
-        this.todos = todos;
+        this.todos = [];
     }
 }
 

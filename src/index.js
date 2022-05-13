@@ -1,3 +1,3 @@
 import ui from './modules/ui';
 
-document.addEventListener('DOMContentLoaded', ui.loadPage());
+document.addEventListener('DOMContentLoaded', ui.initPage());
