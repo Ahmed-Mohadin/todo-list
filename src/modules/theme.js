@@ -3,7 +3,7 @@ class Theme{
         this.mode = 'light';
     }
 
-    // Gets the current mode from localStorage or window.mathMedia
+    // Get the current mode from localStorage or window.mathMedia
     getCurrentMode(){
         if(this.restoreMode()) return this.mode = this.restoreMode();
         // matchMedia method supported
@@ -17,18 +17,18 @@ class Theme{
         }
     }
 
-    // Switches mode and saves mode
+    // Switch mode to light or dark 
     switchMode(){
         this.mode == 'light' ? this.mode = 'dark' : this.mode = 'light';
         this.saveMode();
     }
 
-    // Saves mode in localStorage
+    // Save mode in localStorage
     saveMode(){
         localStorage.setItem("savedMode", JSON.stringify(this.mode));
     }
     
-    // Restores the mode from localStorage
+    // Restore mode from localStorage
     restoreMode(){                
         return JSON.parse(localStorage.getItem('savedMode'));
     }
