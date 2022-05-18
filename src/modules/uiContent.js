@@ -165,17 +165,12 @@ const uiContent = (() => {
     }
 
     return {
-        createProjectElement,
-        createTodoElement,
         renderProjects,
         renderTodos,
         createErrorText,
-        countTodos,
-        addShow,
         displayTitle,
         selectProject,
         getSelected,
-        renderHomeProjects,
         getTodos,
         checkProjectId,
     }
