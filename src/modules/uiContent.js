@@ -22,9 +22,9 @@ const uiContent = (() => {
             `<li class="todo-item" id="${todo.id}">
                 <div class="todo-text">
                     <i class="fa-solid fa-circle-check ${todo.completed ? "todo-check" : null}"></i>
-                    <span>${todo.title}</span>
+                    <span class="${todo.completed ? "strike" : null}">${todo.title}</span>
                 </div>
-                <div class="todo-plan">
+                <div class="todo-plan ${todo.completed ? "strike" : null}">
                     <i class="fa-solid fa-calendar-week"></i>
                     <span>${todo.date}</span>    
                 </div>
@@ -165,17 +165,12 @@ const uiContent = (() => {
     }
 
     return {
-        createProjectElement,
-        createTodoElement,
         renderProjects,
         renderTodos,
         createErrorText,
-        countTodos,
-        addShow,
         displayTitle,
         selectProject,
         getSelected,
-        renderHomeProjects,
         getTodos,
         checkProjectId,
     }

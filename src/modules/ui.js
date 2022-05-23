@@ -90,11 +90,13 @@ const ui = (() => {
                 if(e.target.classList.contains('fa-circle-check')){
                     e.target.classList.toggle('todo-check');
                     collection.todoCheck(todo.id);
+                    collection.saveProjects();
                     uiContent.checkProjectId(collection);
                     initTodoEvents();
                 } if(e.target.classList.contains('fa-star')){
                     e.target.classList.toggle('todo-star');
                     collection.todoStar(todo.id);
+                    collection.saveProjects();
                     uiContent.checkProjectId(collection);
                     initTodoEvents();
                 } if(e.target.classList.contains('fa-pen-to-square')){
