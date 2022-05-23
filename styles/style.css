@@ -277,6 +277,11 @@ main ul{
     background-color: var(--bgColor1);
     overflow-x: hidden;
 }
+.strike{
+    text-decoration: line-through;
+    text-decoration-thickness: 0.25rem;
+    text-decoration-color: var(--accentColor1);
+}
 .show{
     animation: show 1.2s both ease-in-out;
 }
