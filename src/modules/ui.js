@@ -134,7 +134,7 @@ const ui = (() => {
     // Sidenav, change the width of it to close or open it
     const sideNav = () => {
         const projectCollection = document.querySelector('.project-collection');
-        if(projectCollection.offsetWidth == 336){
+        if(projectCollection.offsetWidth != 0){
             projectCollection.style.width = '0rem';
         } else{
             projectCollection.style.width = '21rem';
